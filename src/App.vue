@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view :msg="'test'"></router-view>
+    <router-view></router-view>
   </div>
 </template>
 <script>
