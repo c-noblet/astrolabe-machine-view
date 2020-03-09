@@ -1,7 +1,7 @@
 <template>
-  <div class="window" :style="'width:'+width+'%;height:'+height+'%;left:'+posY+'%;top:'+posY+'%'">
+  <div class="window" :style="'width:'+width+'%;height:'+height+'%;left:'+posX+'%;top:'+posY+'%'">
     <div>
-      <b-button variant="warning">Modifier</b-button>
+      <b-button v-b-modal.edit-modal v-on:click="editModal(window)" variant="warning">Modifier</b-button>
       <iframe :src="url"></iframe>
     </div>
   </div>
@@ -10,11 +10,25 @@
 export default {
   name: 'Window',
   props: {
+    index: Number,
     url: String,
-    posY : Number,
-    posX : Number,
     width : Number,
-    height : Number
+    height : Number,
+    posX : Number,
+    posY : Number,
+    editModal: Function
+  },
+  data () {
+    return {
+      window: {
+        index: this.index,
+        url: this.url,
+        width : this.width,
+        height : this.height,
+        posX : this.posX,
+        posY : this.posY
+      }
+    }
   }
 }
 </script>
