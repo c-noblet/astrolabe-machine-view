@@ -13,6 +13,7 @@
         />
       </li>
     </ul>
+    <AddButton />
     <b-modal ref="edit-modal" id="edit-modal" hide-footer>
       <b-form>
         <b-form-group
@@ -65,6 +66,7 @@
 </template>
 <script>
 import Window from './Window.vue'
+import AddButton from './AddButton.vue'
 export default {
   name: 'Home',
   data () {
@@ -109,7 +111,7 @@ export default {
     }
   },
   components: {
-    Window,
+    Window, AddButton
   }
 }
 </script>
