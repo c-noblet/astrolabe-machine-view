@@ -1,9 +1,9 @@
 <template>
   <div>
     <ul>
-      <li v-for="(item, index) in windows" :key="index">
+      <li v-for="(item) in windows" :key="item.index">
         <Window 
-          :index="index"
+          :index="item.index"
           :url="item.url"
           :width="item.width"
           :height="item.height"
@@ -81,6 +81,7 @@ export default {
       },
       windows: [
         { 
+          index: 0,
           url: 'http://www.lastrolabe.org/',
           width: 50,
           height: 50,
@@ -88,10 +89,19 @@ export default {
           posY: 0 
         },
         { 
+          index: 1,
           url: 'http://www.lastrolabe.org/',
           width: 50,
           height: 50,
           posX: 50,
+          posY: 25  
+        },
+        { 
+          index: 2,
+          url: 'http://www.lastrolabe.org/',
+          width: 50,
+          height: 50,
+          posX: 0,
           posY: 50  
         }
       ]
@@ -108,6 +118,47 @@ export default {
       this.windows[index].posX = parseInt(this.modal.posX)
       this.windows[index].posY = parseInt(this.modal.posY)
       this.$refs['edit-modal'].hide()
+
+      this.calculPosAutreWindows(this.windows[index])
+
+    },
+    calculPosAutreWindows: function(laWindow) {
+      for (let index in this.windows ){
+        
+        if ( this.windows[index] !== laWindow) {
+
+          let laWindowTop = laWindow.posY
+          let laWindowBottom = laWindow.posY + laWindow.height
+          let itemTop = this.windows[index].posY
+          let itemBottom = this.windows[index].posY + this.windows[index].height
+          let orientationH = null 
+
+          // Définie le côté de la window non modifié à adapter
+          if(laWindow.posX < this.windows[index].posX){
+            orientationH = 'left'
+          }else{
+            orientationH = 'right'
+          }
+
+          
+          // Si la fenêtre modifié passe par sa droite sur une fenêtre non modifié
+          if((this.windows[index].posX + this.windows[index].width) >= laWindow.posX){
+            // Si les traits horizontaux des fenêtres sont en conflits sur la même ligne
+            if(itemTop < laWindowBottom && itemBottom > laWindowTop){
+              // Alors on modifie la taille la fenêtre non modifié
+              this.windows[index].width = 100 - laWindow.width
+              // Si la fenêtre non modifié est à gauche
+              if(orientationH === 'left'){
+                // On redéfinie sa position
+                this.windows[index].posX = laWindow.width + laWindow.posX
+              }else{
+                // On redéfinie sa position sa position afin de s'aligner avec la fenêtre modifié
+                laWindow.posX = 100 - laWindow.width
+              }
+            }
+          }
+        } 
+      }
     }
   },
   components: {
