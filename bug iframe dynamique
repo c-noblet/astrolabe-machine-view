@@ -1,0 +1,21 @@
+	
+POUR DEUX IFRAME SUR LA MEME LIGNE QUI RENTRE EN CONFLIT		
+
+	1) LaWindow est a gauche, on veut donc modifier la window de droite
+		Si laWindow.posX != 0 alors si conflit la window de droite ce retouve une partie supérieur a 100 (posX + width) 
+
+		=> solution : prendre en compte la position X de laWindows dans le calcul
+
+		/!\ faire attention au déplacement vers la gauche /!\
+
+
+	2) mettre un message d'erreur 
+
+		si conflit détecter && (ET) laWindow.posX + largeur > 80 
+		alors 
+		message d'erreur indiquant que modif impossible car une fenetre sera écraser 
+
+		=> /!\ RESOLU /!\
+
+
+POUR X IFRAME SUR LA MEME LIGNE QUI RENTRE EN CONFLIT
