@@ -1,6 +1,23 @@
-body{
+body {
   overflow: hidden;
 }
-li{
+li {
   list-style:none;
+}
+.screen {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  display: none;
+}
+.loader {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  & div {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }

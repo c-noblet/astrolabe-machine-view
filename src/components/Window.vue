@@ -1,8 +1,9 @@
 <template>
-  <div class="window" :style="'width:'+width+'%;height:'+height+'%;left:'+posX+'%;top:'+posY+'%'">
+  <div :ref="'window-'+window.id" class="window" :style="'width:'+window.width+'%;height:'+window.height+'%;left:'+window.posX+'%;top:'+window.posY+'%'">
     <div>
-      <b-button v-b-modal.edit-modal v-on:click="editModal(window)" variant="warning">Modifier</b-button>
-      <iframe :src="url"></iframe>
+      <iframe :id="'iframe-'+window.id" :ref="'iframe-'+window.id" :src="window.url" frameBorder="0"></iframe>
+      <router-link :to="{ name: 'Fullscreen', params: { url: window.url}}" ></router-link>
+      <b-button squared v-b-modal.edit-modal v-on:click="editModal(window)" variant="warning">Modifier</b-button>
     </div>
   </div>
 </template>
@@ -10,24 +11,19 @@
 export default {
   name: 'Window',
   props: {
-    index: Number,
-    url: String,
-    width : Number,
-    height : Number,
-    posX : Number,
-    posY : Number,
-    editModal: Function
+    window: Object,
+    editModal: Function,
+    iframeState: Function
   },
-  data () {
-    return {
-      window: {
-        index: this.index,
-        url: this.url,
-        width : this.width,
-        height : this.height,
-        posX : this.posX,
-        posY : this.posY
-      }
+  mounted: function () {
+    this.$refs['iframe-'+this.window.id].onload = this.getIframeState()
+  },
+  methods: {
+    getIframeState: function () {
+      console.log('test')
+      this.window.loaded = Promise.resolve(true)
+      
+      this.iframeState(this.window.id)
     }
   }
 }
@@ -48,6 +44,13 @@ export default {
       position: absolute;
       top: 0;
       right: 0;
+    }
+    & a {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
     }
   }
 </style>

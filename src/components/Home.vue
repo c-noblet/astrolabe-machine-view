@@ -1,125 +1,132 @@
 <template>
-  <div>
-    <ul>
-      <li v-for="(item) in windows" :key="item.index">
-        <Window 
-          :index="item.index"
-          :url="item.url"
-          :width="item.width"
-          :height="item.height"
-          :posX="item.posX"
-          :posY="item.posY"
-          :editModal="editModal"
-        />
-      </li>
-    </ul>
-    <AddButton />
-    <b-modal ref="edit-modal" id="edit-modal" hide-footer>
-      <b-form>
-        <b-form-group
-          label="Entrez l'URL:"
-          label-for="edit-url"
-        >
-          <b-form-input
-            id="edit-url"
-            v-model="modal.url"
-            type="text"
-            required
-            placeholder="Entrer l'URL"
-          ></b-form-input>
-        </b-form-group>
+  <section>
+    <div ref="container" class="screen">
+      <ul>
+        <li v-for="(item) in windows" :key="item.id">
+          <Window 
+            :window="item"
+            :editModal="editModal"
+            :iframeState="iframeState"
+          />
+        </li>
+      </ul>
+      <CircleButton />
+      <b-modal ref="edit-modal" id="edit-modal" hide-footer>
+        <b-form>
+          <b-form-group
+            label="Entrez l'URL:"
+            label-for="edit-url"
+          >
+            <b-form-input
+              id="edit-url"
+              v-model="modal.url"
+              type="text"
+              required
+              placeholder="Entrer l'URL"
+            ></b-form-input>
+          </b-form-group>
 
-        <b-form-group label="Dimension:" label-for="edit-width" class="form-inline">
-          <b-form-input
-            id="edit-width"
-            v-model="modal.width"
-            required
-            placeholder="Entrer la longueur"
-          ></b-form-input>
-          <b-form-input
-            id="edit-height"
-            v-model="modal.height"
-            required
-            placeholder="Entrer la hauteur"
-          ></b-form-input>
-        </b-form-group>
+          <b-form-group label="Dimension:" label-for="edit-width" class="form-inline">
+            <b-form-input
+              id="edit-width"
+              v-model="modal.width"
+              required
+              placeholder="Entrer la longueur"
+            ></b-form-input>
+            <b-form-input
+              id="edit-height"
+              v-model="modal.height"
+              required
+              placeholder="Entrer la hauteur"
+            ></b-form-input>
+          </b-form-group>
 
-        <b-form-group label="Position:" label-for="edit-pos-x" class="form-inline">
-          <b-form-input
-            id="edit-pos-x"
-            v-model="modal.posX"
-            required
-            placeholder="Entrer la longueur"
-          ></b-form-input>
-          <b-form-input
-            id="edit-pos-y"
-            v-model="modal.posY"
-            required
-            placeholder="Entrer la hauteur"
-          ></b-form-input>
-        </b-form-group>
+          <b-form-group label="Position:" label-for="edit-pos-x" class="form-inline">
+            <b-form-input
+              id="edit-pos-x"
+              v-model="modal.posX"
+              required
+              placeholder="Entrer la longueur"
+            ></b-form-input>
+            <b-form-input
+              id="edit-pos-y"
+              v-model="modal.posY"
+              required
+              placeholder="Entrer la hauteur"
+            ></b-form-input>
+          </b-form-group>
 
-        <b-button type="button" v-on:click="onSubmit(modal.index)" variant="primary">Sauvegarder</b-button>
-      </b-form>
-    </b-modal>
-  </div>
+          <b-button type="button" v-on:click="onSubmit(modal.id)" variant="primary">Sauvegarder</b-button>
+        </b-form>
+      </b-modal>
+    </div>
+    <div ref="loader" class="loader">
+      <div>
+        <b-spinner class="text-primary" style="width: 15rem; height: 15rem;" label="Large Spinner"></b-spinner>
+      </div>
+    </div>
+  </section>
 </template>
 <script>
-import Window from './Window.vue'
-import AddButton from './AddButton.vue'
+import options from '../../options.env'
+import Window from './Window'
+import CircleButton from './CircleButton'
 export default {
   name: 'Home',
   data () {
     return {
       modal: {
-        index: Number,
+        id: Number,
         url: String,
         width: Number,
         height: Number,
         posX: Number,
-        posY: Number
+        posY: Number,
+        loaded: Boolean
       },
-      windows: [
-        { 
-          index: 0,
-          url: 'http://www.lastrolabe.org/',
-          width: 50,
-          height: 50,
-          posX: 0,
-          posY: 0 
-        },
-        { 
-          index: 1,
-          url: 'http://www.lastrolabe.org/',
-          width: 50,
-          height: 50,
-          posX: 50,
-          posY: 25  
-        },
-        { 
-          index: 2,
-          url: 'http://www.lastrolabe.org/',
-          width: 50,
-          height: 50,
-          posX: 0,
-          posY: 50  
-        }
-      ]
+      windows: Array,
+      promiseArray: []
     }
   },
+  mounted: function () {
+    this.getWindows()
+  },
   methods: {
+    showApp: function () {
+      this.$refs['container'].style.display = 'block'
+      this.$refs['loader'].style.display = 'none'
+    },
+    iframeState: function (id) {
+      let win = this.windows.find(x => x.id === id)
+      this.promiseArray.push(win.loaded)
+      if(this.promiseArray.length === this.windows.length){
+        Promise.all(this.promiseArray).then(this.showApp())
+      }
+    },
+    getWindows: function () {
+      fetch(options.API_URL+'/get/')
+      .then((results) => results.json())
+      .then(data => {
+        this.windows = data
+        for (let i = 0; i < this.windows.length; i++) {
+          this.windows[i].loaded = false
+        }
+      }).catch(function(err){
+        alert(err)
+      })
+    },
     editModal: function (window) {
       this.modal = window
     },
-    onSubmit: function (index){
-      this.windows[index].url = this.modal.url
-      this.windows[index].width = parseInt(this.modal.width)
-      this.windows[index].height = parseInt(this.modal.height)
-      this.windows[index].posX = parseInt(this.modal.posX)
-      this.windows[index].posY = parseInt(this.modal.posY)
+    onSubmit: function (id){
+      this.windows[id].url = this.modal.url
+      this.windows[id].width = parseInt(this.modal.width)
+      this.windows[id].height = parseInt(this.modal.height)
+      this.windows[id].posX = parseInt(this.modal.posX)
+      this.windows[id].posY = parseInt(this.modal.posY)
       this.$refs['edit-modal'].hide()
 
-      this.calculPosAutreWindows(this.windows[index])
+      //this.calculPosAutreWindows(this.windows[id])
 
     },
     calculPosAutreWindows: function(laWindow) {
@@ -162,7 +169,7 @@ export default {
     }
   },
   components: {
-    Window, AddButton
+    Window, CircleButton
   }
 }
 </script>
