@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../components/Home.vue'
+import Fullscreen from '../components/Fullscreen.vue'
 
 Vue.use(Router)
 
@@ -13,6 +14,12 @@ export default new Router({
       props: true,
       name: 'Home',
       component: Home
+    },
+    {
+      path: '/fullscreen/',
+      props: true,
+      name: 'Fullscreen',
+      component: Fullscreen
     }
   ],
   scrollBehavior () {
