@@ -56,7 +56,8 @@
             ></b-form-input>
           </b-form-group>
 
-          <b-button type="button" v-on:click="onSubmit(modal.id)" variant="primary">Sauvegarder</b-button>
+          <b-button type="button" class="mr-3" v-on:click="onSubmit(modal.id)" variant="primary">Sauvegarder</b-button>
+          <b-button type="button" v-on:click="deleteWindow(modal.id)" variant="danger">Supprimer</b-button>
         </b-form>
       </b-modal>
     </div>
@@ -104,7 +105,7 @@ export default {
       }
     },
     getWindows: function () {
-      fetch(options.API_URL+'/get/')
+      fetch(options.API_WINDOW_URL)
       .then((results) => results.json())
       .then(data => {
         this.windows = data
@@ -117,6 +118,31 @@ export default {
     },
     editModal: function (window) {
       this.modal = window
+    },
+    deleteWindow: function (id) {
+      for (let i = 0; i < this.windows.length; i++) {
+        if(this.windows[i].id === id){
+          fetch(options.API_WINDOW_URL+this.windows[i].id, {
+            method: 'DELETE',
+            body: {
+              id: this.windows[i].id
+            }
+          })
+          .then((results) => results.json())
+          .then(data => {
+            if(typeof data.erreur !== 'undefined'){
+              alert(data.erreur)
+            }else{
+              this.windows.splice(i, 1);
+              this.$refs['edit-modal'].hide()
+              console.log(data)
+            }
+          }).catch(function(err){
+            alert(err)
+          })
+        }
+        
+      }
     },
     onSubmit: function (id){
       this.windows[id].url = this.modal.url

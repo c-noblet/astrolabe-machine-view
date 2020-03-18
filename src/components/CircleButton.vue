@@ -12,7 +12,7 @@
           <label for="sub1"><span><font-awesome-icon icon="plus"/></span></label>
         </button>
         <button class="sub-circle">
-          <input class="hidden-sub-trigger" id="sub2" type="button" name="sub-circle" value="1"/>
+          <input v-b-modal.bg-modal class="hidden-sub-trigger" id="sub2" type="button" name="sub-circle" value="1"/>
           <label for="sub2"><span><font-awesome-icon icon="paint-roller"/></span></label>
         </button>
         <button class="sub-circle">
@@ -70,6 +70,39 @@
         <b-button type="button" v-on:click="onSubmit()" variant="primary">Ajouter</b-button>
       </b-form>
     </b-modal>
+
+    <b-modal ref="bg-modal" id="bg-modal" hide-footer>
+      <b-form>
+        <b-form-group
+          label="Entrez la couleur au format RGB:"
+          label-for="bg-r"
+        >
+          <b-form-input
+            id="bg-r"
+            v-model="background.red"
+            type="text"
+            required
+            placeholder="Rouge"
+          ></b-form-input>
+          <b-form-input
+            id="bg-g"
+            v-model="background.green"
+            type="text"
+            required
+            placeholder="Vert"
+          ></b-form-input>
+          <b-form-input
+            id="bg-b"
+            v-model="background.blue"
+            type="text"
+            required
+            placeholder="Bleue"
+          ></b-form-input>
+        </b-form-group>
+
+        <b-button type="button" v-on:click="setBackground()" variant="primary">Ajouter</b-button>
+      </b-form>
+    </b-modal>
   </div>
 </template>
 <script>
@@ -84,25 +117,29 @@ export default {
         height: '',
         posX: '',
         posY: ''
+      },
+      background: {
+        red: '',
+        green: '',
+        blue: ''
       }
     }
   },
   methods: {
     onSubmit: function () {
-       fetch(options.API_URL+'/post', {
-         method: 'POST',
-         headers: {
-           'Accept': 'application/json',
-           'Content-Type': 'application/json'
-         },
-         body: JSON.stringify(this.modal)
-       })
+      fetch(options.API_WINDOW_URL, {
+        method: 'POST',
+        body: JSON.stringify(this.modal)
+      })
       .then((results) => results.json())
       .then(data => {
         console.log(data)
       }).catch(function(err){
         alert(err)
       })
+    },
+    setBackground: function () {
+      
     }
   }
 }
