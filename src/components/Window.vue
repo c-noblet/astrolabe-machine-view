@@ -20,7 +20,6 @@ export default {
   },
   methods: {
     getIframeState: function () {
-      console.log('test')
       this.window.loaded = Promise.resolve(true)
       
       this.iframeState(this.window.id)
