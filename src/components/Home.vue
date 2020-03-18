@@ -108,9 +108,13 @@ export default {
       fetch(options.API_WINDOW_URL)
       .then((results) => results.json())
       .then(data => {
-        this.windows = data
-        for (let i = 0; i < this.windows.length; i++) {
-          this.windows[i].loaded = false
+        if(typeof data.erreur !== 'undefined'){
+          alert(data.erreur)
+        }else{
+          this.windows = data
+          for (let i = 0; i < this.windows.length; i++) {
+            this.windows[i].loaded = false
+          }
         }
       }).catch(function(err){
         alert(err)

@@ -133,7 +133,11 @@ export default {
       })
       .then((results) => results.json())
       .then(data => {
-        console.log(data)
+        if(typeof data.erreur !== 'undefined'){
+          alert(data.erreur)
+        }else{
+          console.log(data)
+        }
       }).catch(function(err){
         alert(err)
       })
