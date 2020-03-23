@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div ref="container" class="screen">
+    <div ref="container" class="screen" :style="'background:'+background">
       <ul>
         <li v-for="(item) in windows" :key="item.id">
           <Window 
@@ -10,7 +10,7 @@
           />
         </li>
       </ul>
-      <CircleButton />
+      <CircleButton :setBackground="setBackground"/>
       <b-modal ref="edit-modal" id="edit-modal" hide-footer>
         <b-form>
           <b-form-group
@@ -76,6 +76,7 @@ export default {
   name: 'Home',
   data () {
     return {
+      background: 'rgb(255,100,100)',
       modal: {
         id: Number,
         url: String,
@@ -96,6 +97,24 @@ export default {
     showApp: function () {
       this.$refs['container'].style.display = 'block'
       this.$refs['loader'].style.display = 'none'
+    },
+    setBackground: function (background) {
+      if(background == null){
+        console.log('error')
+      }else{
+        if (background.picture != null) {
+          let reader = new FileReader()
+          let picUrl
+          reader.onload = function(){
+            picUrl = reader.result
+          };
+          reader.readAsDataURL(background.picture);
+          console.log(picUrl)
+          this.background = 'url('+picUrl+')'
+        } else {
+          this.background = 'rgb('+background.red+','+background.green+','+background.blue+')'
+        }
+      }
     },
     iframeState: function (id) {
       let win = this.windows.find(x => x.id === id)
