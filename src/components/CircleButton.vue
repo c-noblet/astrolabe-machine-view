@@ -115,22 +115,23 @@ export default {
   },
   methods: {
     onSubmit: function () {
+      const formData = new FormData();
+      formData.append('url', this.modal.url)
+      formData.append('width', this.modal.width)
+      formData.append('height', this.modal.height)
+      formData.append('posX', this.modal.posX)
+      formData.append('posY', this.modal.posY)
+      console.log(formData)
       fetch(options.API_WINDOW_URL, {
         method: 'POST',
-        body: {
-          url: this.modal.url,
-          width: parseInt(this.modal.width),
-          height: parseInt(this.modal.height),
-          posX: parseInt(this.modal.posX),
-          posY: parseInt(this.modal.posY),
-        }
+        body: formData
       })
       .then((results) => results.json())
       .then(data => {
         if(typeof data.erreur !== 'undefined'){
           alert(data.erreur)
         }else{
-          console.log(data)
+          //this.windows.push(data)
         }
       }).catch(function(err){
         alert(err)
