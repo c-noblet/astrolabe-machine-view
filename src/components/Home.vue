@@ -103,16 +103,11 @@ export default {
         console.log('error')
       }else{
         if (background.picture != null) {
-          let reader = new FileReader()
-          let picUrl
-          reader.onload = function(){
-            picUrl = reader.result
-          };
-          reader.readAsDataURL(background.picture);
-          console.log(picUrl)
-          this.background = 'url('+picUrl+')'
+          let picUrl = background.picture.webkitRelativePath + background.picture.name
+          this.background = "url('"+picUrl+"')"
+          console.log(this.background)
         } else {
-          this.background = 'rgb('+background.red+','+background.green+','+background.blue+')'
+          this.background = "rgb("+background.red+","+background.green+","+background.blue+")"
         }
       }
     },
@@ -145,11 +140,11 @@ export default {
     deleteWindow: function (id) {
       for (let i = 0; i < this.windows.length; i++) {
         if(this.windows[i].id === id){
+          const formData = new FormData();
+          formData.append('id', this.windows[i].id)
           fetch(options.API_WINDOW_URL+this.windows[i].id, {
             method: 'DELETE',
-            body: {
-              id: this.windows[i].id
-            }
+            body: formData
           })
           .then((results) => results.json())
           .then(data => {
@@ -164,7 +159,6 @@ export default {
             alert(err)
           })
         }
-        
       }
     },
     onSubmit: function (id){
