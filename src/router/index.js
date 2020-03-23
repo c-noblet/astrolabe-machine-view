@@ -2,7 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../components/Home.vue'
 import Fullscreen from '../components/Fullscreen.vue'
-
+import ColorForm from '../components/BackgroundModal/ColorForm.vue'
+import PicForm from '../components/BackgroundModal/PictureForm.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -13,7 +14,21 @@ export default new Router({
       path: '/',
       props: true,
       name: 'Home',
-      component: Home
+      component: Home,
+      children: [
+        {
+          path: '/picform',
+          props: true,
+          name: 'PicForm',
+          component: PicForm
+        },
+        {
+          path: '/',
+          props: true,
+          name: 'ColorForm',
+          component: ColorForm
+        }
+      ]
     },
     {
       path: '/fullscreen/',

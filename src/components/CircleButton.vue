@@ -72,35 +72,15 @@
     </b-modal>
 
     <b-modal ref="bg-modal" id="bg-modal" hide-footer>
+      <div>
+        <b-nav tabs fill>
+          <b-nav-item to="/" active>Couleur</b-nav-item>
+          <b-nav-item to="/picform">Image</b-nav-item>
+        </b-nav>
+      </div>
       <b-form>
-        <b-form-group
-          label="Entrez la couleur au format RGB:"
-          label-for="bg-r"
-        >
-          <b-form-input
-            id="bg-r"
-            v-model="background.red"
-            type="text"
-            required
-            placeholder="Rouge"
-          ></b-form-input>
-          <b-form-input
-            id="bg-g"
-            v-model="background.green"
-            type="text"
-            required
-            placeholder="Vert"
-          ></b-form-input>
-          <b-form-input
-            id="bg-b"
-            v-model="background.blue"
-            type="text"
-            required
-            placeholder="Bleue"
-          ></b-form-input>
-        </b-form-group>
-
-        <b-button type="button" v-on:click="setBackground()" variant="primary">Ajouter</b-button>
+        <router-view :bg="background"></router-view>
+        <b-button type="button" v-on:click="setBackground(background)" variant="primary">Ajouter</b-button>
       </b-form>
     </b-modal>
   </div>
@@ -108,11 +88,13 @@
 <script>
 import options from '../../options.env'
 export default {
+  props: {
+    setBackground: Function
+  },
   data() {
     return {
       modal: {
-        id: '',
-        url: '',
+        url: 'http://www.lastrolabe.org/',
         width: '',
         height: '',
         posX: '',
@@ -121,15 +103,27 @@ export default {
       background: {
         red: '',
         green: '',
-        blue: ''
+        blue: '',
+        picture: null
       }
     }
+  },
+  created () {
+    this.$on('backgroundUpdate', function (value){
+      this.background = value
+    })
   },
   methods: {
     onSubmit: function () {
       fetch(options.API_WINDOW_URL, {
         method: 'POST',
-        body: JSON.stringify(this.modal)
+        body: {
+          url: this.modal.url,
+          width: parseInt(this.modal.width),
+          height: parseInt(this.modal.height),
+          posX: parseInt(this.modal.posX),
+          posY: parseInt(this.modal.posY),
+        }
       })
       .then((results) => results.json())
       .then(data => {
@@ -141,9 +135,6 @@ export default {
       }).catch(function(err){
         alert(err)
       })
-    },
-    setBackground: function () {
-      
     }
   }
 }
