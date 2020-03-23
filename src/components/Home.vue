@@ -159,9 +159,14 @@ export default {
           let itemBottom = this.windows[index].posY + this.windows[index].height
           let orientationH = null 
           let choixOrientationH = null
-          let choixWidthTailleMax = null
+          // let choixWidthTailleMax = null
           let annulationModif = false
-          let widthMaxSiConflit = 80
+          // max /!\
+          //let widthMaxSiConflit = 100 //80
+
+          //test /!\
+          // largeur minimun pour une Window
+          let widthMinSiConflit = 20
 
           // Définie le côté de la window non modifié à adapter
           if(laWindow.posX > this.windows[index].posX){
@@ -174,11 +179,11 @@ export default {
           if(orientationH === 'left'){
             // fenetre non modifié à GAUCHE de laWindow
             choixOrientationH = (this.windows[index].posX + this.windows[index].width) >= laWindow.posX
-            choixWidthTailleMax = laWindow.width <= widthMaxSiConflit
+           // choixWidthTailleMax = laWindow.width <= widthMaxSiConflit
           }else{
             // fenetre non modifié à DROITE de laWindow
             choixOrientationH = (laWindow.posX + laWindow.width) >= this.windows[index].posX
-            choixWidthTailleMax = (laWindow.posX + laWindow.width ) <= widthMaxSiConflit
+           // choixWidthTailleMax = (laWindow.posX + laWindow.width ) <= widthMaxSiConflit
           }
 
           if (laWindow.width > 100 ){
@@ -192,53 +197,72 @@ export default {
             // if((laWindow.posX + laWindow.width) >= this.windows[index].posX){
 
             // Si les traits horizontaux des fenêtres sont en conflits sur la même ligne
+            console.log(itemTop +"<"+ laWindowBottom +"&&"+ itemBottom +">"+ laWindowTop + this.windows[index].index)
             if(itemTop < laWindowBottom && itemBottom > laWindowTop){
+              //console.log("conflit horizontaux = true ")
 
               // En plus du conflit, on ajoute un controle sur la largeur max de la fenetre pour éviter d'écraser la fenetre non modifier 
-              if (choixWidthTailleMax) {
+              /*if (choixWidthTailleMax) {*/
 
                 // Si les deux windows prennent toute la largeur on modifie la taille la fenêtre non modifié 
-                if (((laWindow.posX + laWindow.width) + this.windows[index].width) > 100 ){
+                if (((laWindow.posX + laWindow.width) + this.windows[index].width) >= 100 ){
                   if (confirm("Attention, \n\nVotre action va diminuer la largeur d'une autre fenêtre ! \n\nContinuer ?")){
                     // Si la fenêtre non modifié est à droite 
                     if(orientationH === 'right'){
-                    this.windows[index].width = 100 - ( laWindow.width + laWindow.posX )
-                      // On redéfinie sa position
-                      this.windows[index].posX = laWindow.width + laWindow.posX
+                      if ((100 - ( laWindow.width + laWindow.posX )) >= widthMinSiConflit ){
+                         //console.log(orientationH)
+                        this.windows[index].width = 100 - ( laWindow.width + laWindow.posX )
+                        // On redéfinie sa position
+                        this.windows[index].posX = laWindow.width + laWindow.posX                       
+                      } else {
+                        annulationModif = true
+                      }
                     }else{
                       // On redéfinie sa position afin de s'aligner avec la fenêtre modifié
                       laWindow.posX = 100 - laWindow.width
                       // On change la largeur de la fenêtre non modifié 
+                      if ( (laWindow.posX - this.windows[index].posX) >= widthMinSiConflit) {
+                         //console.log(orientationH)
                       this.windows[index].width = laWindow.posX - this.windows[index].posX
+                      } else {
+                        annulationModif = true
+                      }
                     }
                   } else {
                     annulationModif = true
                   }
-                // Sinon on garde la taille de la windows non modifier 
+                  // Sinon on garde la taille de la windows non modifier 
                 }else{
                   // Si la fenêtre non modifié est à gauche
                   if(orientationH === 'right'){
+                    //console.log('Si la fenêtre non modifié est à gauche')
                     // On redéfinie sa position
                     this.windows[index].posX = laWindow.width + laWindow.posX
                   }else{
                     // On redéfinie sa position sa position afin de s'aligner avec la fenêtre modifié
+                    //console.log('Si la fenêtre non modifié est à droite')
                     laWindow.posX = 100 - laWindow.width
                   }
                   // on boucle sur la fonction pour faire bouger les autres Windows si besoin 
                   // this.calculPosAutreWindows(this.windows[index], this.windows[index].posX, this.windows[index].width/*, enregistrementHeight*/)
                   // this.onSubmit(this.windows[index])
                 }
-              }else{
+              /*}else{
                 annulationModif = true
-              }
+              }*/
             }
             // Si la posX + la largeur de laW est > 100
-            else if ( (laWindow.posX + laWindow.width ) > 100 ) {
-              laWindow.posX = 100 - laWindow.width
+            else {
+              if ( (laWindow.posX + laWindow.width ) > 100 ) {
+                laWindow.posX = 100 - laWindow.width
 
-              // this.calculPosAutreWindows(laWindow, laWindow.width/*, enregistrementHeight*/)
-              // this.onSubmit(this.windows[index])
+                //console.log("laW est > 100 ")
+
+                // this.calculPosAutreWindows(laWindow, laWindow.width/*, enregistrementHeight*/)
+                // this.onSubmit(this.windows[index])
+              }
             }
+             //console.log("Aucun conflit")
           }
 
           if (annulationModif){
@@ -253,6 +277,7 @@ export default {
         } 
       }
 
+      console.log("fin methode")
       // v1 fin 
     }
   },
