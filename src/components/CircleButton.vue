@@ -16,8 +16,8 @@
           <label for="sub2"><span><font-awesome-icon icon="paint-roller"/></span></label>
         </button>
         <button class="sub-circle">
-          <input class="hidden-sub-trigger" id="sub3" type="button" name="sub-circle" value="1"/>
-          <label for="sub3"></label>
+          <input to="/veille" class="hidden-sub-trigger" id="sub3" type="button" name="sub-circle" value="1"/>
+          <label for="sub3"><span><font-awesome-icon icon="sync-alt"/></span></label>
         </button>
       </div>
     </div>
@@ -101,9 +101,7 @@ export default {
         posY: ''
       },
       background: {
-        red: '',
-        green: '',
-        blue: '',
+        color: '',
         picture: null
       }
     }
