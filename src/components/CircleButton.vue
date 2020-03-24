@@ -16,8 +16,8 @@
           <label for="sub2"><span><font-awesome-icon icon="paint-roller"/></span></label>
         </button>
         <button class="sub-circle">
-          <input to="/veille" class="hidden-sub-trigger" id="sub3" type="button" name="sub-circle" value="1"/>
-          <label for="sub3"><span><font-awesome-icon icon="sync-alt"/></span></label>
+          <!--<input to="/veille" class="hidden-sub-trigger" id="sub3" type="button" name="sub-circle" value="1"/>-->
+          <router-link to="/veille"><span><font-awesome-icon icon="sync-alt"/></span></router-link>
         </button>
       </div>
     </div>
@@ -210,7 +210,7 @@ button {
   padding: 0;
   margin: 0;
   box-shadow: 0 6px 10px 0 rgba(0,0,0,0.3);
-  label{
+  label, a{
     display: table;
     background-color: $sub-circle;
     color: white;

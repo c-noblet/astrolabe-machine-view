@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../components/Home.vue'
+import Veille from '../components/Veille.vue'
 import Fullscreen from '../components/Fullscreen.vue'
 import ColorForm from '../components/BackgroundModal/ColorForm.vue'
 import PicForm from '../components/BackgroundModal/PictureForm.vue'
@@ -29,6 +30,12 @@ export default new Router({
           component: ColorForm
         }
       ]
+    },
+    {
+      path: '/veille/',
+      props: true,
+      name: 'Veille',
+      component: Veille
     },
     {
       path: '/fullscreen/',
