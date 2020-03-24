@@ -1,18 +1,9 @@
 <template>
-  <div id="app" style="background-color">
+  <div id="app">
     <router-view></router-view>
   </div>
 </template>
 <script>
 export default {
-  data() {
-    return {
-      background: {
-        red: '',
-        green: '',
-        blue: ''
-      }
-    }
-  },
 }
 </script>
