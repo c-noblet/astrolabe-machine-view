@@ -17,7 +17,7 @@
         </button>
         <button class="sub-circle">
           <input class="hidden-sub-trigger" id="sub3" type="button" name="sub-circle" value="1"/>
-          <label for="sub3"></label>
+          <label for="sub3"><span><font-awesome-icon icon="power-off"/></span></label>
         </button>
       </div>
     </div>

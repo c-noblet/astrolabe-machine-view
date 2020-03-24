@@ -76,7 +76,7 @@ export default {
   name: 'Home',
   data () {
     return {
-      background: 'rgb(255,100,100)',
+      background: 'rgb(25,45,70)',
       modal: {
         id: Number,
         url: String,
