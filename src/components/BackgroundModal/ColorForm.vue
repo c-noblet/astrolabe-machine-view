@@ -1,31 +1,15 @@
 <template>
   <b-form-group
-    label="Entrez la couleur au format RGB:"
-    label-for="bg-r"
+    label="Entrez la couleur:"
+    label-for="bg-color"
   >
     <b-form-input
-      id="bg-r"
-      v-model="background.red"
+      id="bg-color"
+      v-model="background.color"
       type="text"
       required
-      placeholder="Rouge"
+      placeholder="#ffffff"
       @input="updateValue(background)"
-    ></b-form-input>
-    <b-form-input
-      id="bg-g"
-      v-model="background.green"
-      type="text"
-      required
-      placeholder="Vert"
-      @input="updateValue(background)"
-    ></b-form-input>
-    <b-form-input
-      id="bg-b"
-      v-model="background.blue"
-      type="text"
-      required
-      placeholder="Bleu"
-      @change="updateValue(background)"
     ></b-form-input>
   </b-form-group>
 </template>
