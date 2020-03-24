@@ -4,10 +4,10 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import App from './App.vue'
 import router from './router'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPlus, faEllipsisH, faPaintRoller, faPowerOff } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faEllipsisH, faPaintRoller, faSyncAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faPlus, faEllipsisH, faPaintRoller, faPowerOff)
+library.add(faPlus, faEllipsisH, faPaintRoller, faSyncAlt)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 // Install BootstrapVue
 Vue.use(BootstrapVue)

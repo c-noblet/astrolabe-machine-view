@@ -92,6 +92,7 @@ export default {
   },
   mounted: function () {
     this.getWindows()
+    this.getBackground()
   },
   methods: {
     showApp: function () {
@@ -103,18 +104,34 @@ export default {
         console.log('error')
       }else{
         if (background.picture != null) {
-          let reader = new FileReader()
-          let picUrl
-          reader.onload = function(){
-            picUrl = reader.result
-          };
-          reader.readAsDataURL(background.picture);
-          console.log(picUrl)
-          this.background = 'url('+picUrl+')'
+          let picUrl = background.picture.webkitRelativePath + background.picture.name
+          this.background = "url('"+picUrl+"')"
+          console.log(this.background)
         } else {
-          this.background = 'rgb('+background.red+','+background.green+','+background.blue+')'
+          const formData = new FormData();
+          formData.append('color', background)
+          fetch(options.API_BACKGROUND_URL, {
+            method: 'PUT',
+            body: formData
+          })
+          .then((results) => results.json())
+          .then((data) => {
+            console.log(data)
+            this.background = data.color
+          })
         }
       }
+    },
+    getBackground: function () {
+      fetch(options.API_BACKGROUND_URL)
+      .then((results) => results.json())
+      .then(data => {
+        if(data.color){
+          this.background = data.color
+        }else{
+          this.background = "url('"+data.image+"')"
+        }
+      })
     },
     iframeState: function (id) {
       let win = this.windows.find(x => x.id === id)
@@ -145,11 +162,11 @@ export default {
     deleteWindow: function (id) {
       for (let i = 0; i < this.windows.length; i++) {
         if(this.windows[i].id === id){
+          const formData = new FormData();
+          formData.append('id', this.windows[i].id)
           fetch(options.API_WINDOW_URL+this.windows[i].id, {
             method: 'DELETE',
-            body: {
-              id: this.windows[i].id
-            }
+            body: formData
           })
           .then((results) => results.json())
           .then(data => {
@@ -164,17 +181,40 @@ export default {
             alert(err)
           })
         }
-        
       }
     },
     onSubmit: function (id){
-      this.windows[id].url = this.modal.url
-      this.windows[id].width = parseInt(this.modal.width)
-      this.windows[id].height = parseInt(this.modal.height)
-      this.windows[id].posX = parseInt(this.modal.posX)
-      this.windows[id].posY = parseInt(this.modal.posY)
+      for (let i = 0; i < this.windows.length; i++) {
+        if(this.windows[i].id === id){
+          const formData = new FormData();
+          formData.append('url', this.windows[i].url)
+          formData.append('width', parseInt(this.windows[i].width))
+          formData.append('height', parseInt(this.windows[i].height))
+          formData.append('posX', parseInt(this.windows[i].posX))
+          formData.append('posY', parseInt(this.windows[i].posY))
+          fetch(options.API_WINDOW_URL+this.windows[i].id, {
+            method: 'PUT',
+            body: formData
+          })
+          .then((results) => results.json())
+          .then(data => {
+            if(typeof data.error !== 'undefined'){
+              alert(data.error)
+            }else{
+              this.windows[i].url = this.modal.url
+              this.windows[i].width = parseInt(this.modal.width)
+              this.windows[i].height = parseInt(this.modal.height)
+              this.windows[i].posX = parseInt(this.modal.posX)
+              this.windows[i].posY = parseInt(this.modal.posY)
+              this.$refs['edit-modal'].hide()
+              console.log(data)
+            }
+          }).catch(function(err){
+            alert(err)
+          })
+        }
+      }
       this.$refs['edit-modal'].hide()
-
       //this.calculPosAutreWindows(this.windows[id])
 
     },
