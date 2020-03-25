@@ -79,7 +79,10 @@
         </b-nav>
       </div>
       <b-form>
-        <router-view :bg="background"></router-view>
+        <router-view 
+          :bg="bg"
+          @backgroundUpdate="background = $event"
+        ></router-view>
         <b-button type="button" v-on:click="setBackground(background)" variant="primary">Ajouter</b-button>
       </b-form>
     </b-modal>
@@ -101,13 +104,13 @@ export default {
         posX: '',
         posY: ''
       },
-      background: this.bg
+      background: ''
     }
   },
   mounted () {
     this.$on('backgroundUpdate', function (value){
+      console.log('emit', value)
       this.background = value
-      this.$parent.$emit('backgroundUpdate', value);
     })
   },
   methods: {

@@ -3,15 +3,15 @@
     label="Choisissez une couleur:"
     label-for="bg-color"
   >
-    <b-form-input
+    <input
       ref="bg-color"
       id="bg-color"
       type="color"
       required
       placeholder="#ffffff"
       class="w-25 form-control"
-      @change="$emit('backgroundUpdate',this.$refs['bg-color'].value)"
-    ></b-form-input>
+      @input="backgroundUpdate"
+    />
   </b-form-group>
 </template>
 <script>
@@ -19,13 +19,19 @@ export default {
   props: {
     bg: String
   },
-  data(){
+  data() {
     return {
-      background: this.bg
+      background: ''
     }
   },
   mounted: function(){
-    this.$refs['bg-color'].value = this.background
+    this.$refs['bg-color'].value = this.bg
+  },
+  methods: {
+    backgroundUpdate: function(event) {
+      this.background = event.target.value
+      this.$emit('backgroundUpdate', this.background)
+    }
   }
 }
 </script>
