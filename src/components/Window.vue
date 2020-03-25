@@ -3,7 +3,7 @@
     <div>
       <iframe :id="'iframe-'+window.id" :ref="'iframe-'+window.id" :src="window.url" frameBorder="0"></iframe>
       <router-link :to="{ name: 'Fullscreen', params: { url: window.url}}" ></router-link>
-      <b-button squared v-b-modal.edit-modal v-on:click="editModal(window)" variant="warning">Modifier</b-button>
+      <b-button v-if="editMode" squared v-b-modal.edit-modal v-on:click="editModal(window)" variant="warning">Modifier</b-button>
     </div>
   </div>
 </template>
@@ -13,7 +13,8 @@ export default {
   props: {
     window: Object,
     editModal: Function,
-    iframeState: Function
+    iframeState: Function,
+    editMode: Boolean
   },
   mounted: function () {
     this.$refs['iframe-'+this.window.id].onload = this.getIframeState()

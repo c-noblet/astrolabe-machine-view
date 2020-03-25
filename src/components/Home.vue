@@ -7,10 +7,12 @@
             :window="item"
             :editModal="editModal"
             :iframeState="iframeState"
+            :editMode="editMode"
           />
         </li>
       </ul>
       <CircleButton 
+        v-if="editMode"
         :bg="background"
         :setBackground="setBackground"
         />
@@ -77,6 +79,9 @@ import Window from './Window'
 import CircleButton from './CircleButton'
 export default {
   name: 'Home',
+  props: {
+    editMode: Boolean
+  },
   data () {
     return {
       background: "",

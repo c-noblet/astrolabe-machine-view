@@ -16,20 +16,6 @@ export default new Router({
       props: true,
       name: 'Home',
       component: Home,
-      children: [
-        {
-          path: '/picform',
-          props: true,
-          name: 'PicForm',
-          component: PicForm
-        },
-        {
-          path: '/',
-          props: true,
-          name: 'ColorForm',
-          component: ColorForm
-        }
-      ]
     },
     {
       path: '/veille/',
@@ -42,7 +28,39 @@ export default new Router({
       props: true,
       name: 'Fullscreen',
       component: Fullscreen
-    }
+    },
+    {
+      path: '/edit/',
+      props: true,
+      name: 'EditHome',
+      component: Home,
+      children: [
+        {
+          path: '/edit/veille/',
+          props: true,
+          name: 'EditVeille',
+          component: Veille
+        },
+        {
+          path: '/edit/fullscreen/',
+          props: true,
+          name: 'EditFullscreen',
+          component: Fullscreen
+        },
+        {
+          path: '/edit/picform/',
+          props: true,
+          name: 'EditPicForm',
+          component: PicForm
+        },
+        {
+          path: '/edit/',
+          props: true,
+          name: 'EditColorForm',
+          component: ColorForm
+        }
+      ]
+    },
   ],
   scrollBehavior () {
     return { x: 0, y: 0 }
