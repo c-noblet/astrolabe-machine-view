@@ -1,33 +1,31 @@
 <template>
   <b-form-group
-    label="Entrez la couleur:"
+    label="Choisissez une couleur:"
     label-for="bg-color"
   >
     <b-form-input
+      ref="bg-color"
       id="bg-color"
-      v-model="background.color"
-      type="text"
+      type="color"
       required
       placeholder="#ffffff"
-      @input="updateValue(background)"
+      class="w-25 form-control"
+      @change="$emit('backgroundUpdate',this.$refs['bg-color'].value)"
     ></b-form-input>
   </b-form-group>
 </template>
 <script>
 export default {
   props: {
-    bg: Object
+    bg: String
   },
-  data() {
+  data(){
     return {
       background: this.bg
     }
   },
-  methods: {
-    updateValue: function (value) {
-      console.log('emit')
-      this.$parent.$emit('backgroundUpdate', value);
-    }
+  mounted: function(){
+    this.$refs['bg-color'].value = this.background
   }
 }
 </script>

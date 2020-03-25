@@ -89,6 +89,7 @@
 import options from '../../options.env'
 export default {
   props: {
+    bg: String,
     setBackground: Function
   },
   data() {
@@ -100,15 +101,13 @@ export default {
         posX: '',
         posY: ''
       },
-      background: {
-        color: '',
-        picture: null
-      }
+      background: this.bg
     }
   },
-  created () {
+  mounted () {
     this.$on('backgroundUpdate', function (value){
       this.background = value
+      this.$parent.$emit('backgroundUpdate', value);
     })
   },
   methods: {

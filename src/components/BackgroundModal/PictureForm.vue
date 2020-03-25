@@ -2,6 +2,7 @@
   <b-form-group
     label="Importer une image:"
     label-for="bg-pic"
+    class="mt-3"
   >
     <b-form-file
     id="bg-pic"

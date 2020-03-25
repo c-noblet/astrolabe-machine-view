@@ -10,7 +10,10 @@
           />
         </li>
       </ul>
-      <CircleButton :setBackground="setBackground"/>
+      <CircleButton 
+        :bg="background"
+        :setBackground="setBackground"
+        />
       <b-modal ref="edit-modal" id="edit-modal" hide-footer>
         <b-form>
           <b-form-group
@@ -76,23 +79,23 @@ export default {
   name: 'Home',
   data () {
     return {
-      background: 'rgb(255,100,100)',
+      background: "",
       modal: {
         id: Number,
         url: String,
-        width: Number,
-        height: Number,
-        posX: Number,
-        posY: Number,
+        width: String,
+        height: String,
+        posX: String,
+        posY: String,
         loaded: Boolean
       },
       windows: Array,
       promiseArray: []
     }
   },
-  mounted: function () {
+  mounted: async function () {
+    await this.getBackground()
     this.getWindows()
-    this.getBackground()
   },
   methods: {
     showApp: function () {
@@ -108,8 +111,10 @@ export default {
           this.background = "url('"+picUrl+"')"
           console.log(this.background)
         } else {
-          const formData = new FormData();
-          formData.append('color', background)
+          const formData = JSON.stringify({
+            color: background
+          })
+          console.log(formData)
           fetch(options.API_BACKGROUND_URL, {
             method: 'PUT',
             body: formData
@@ -173,7 +178,7 @@ export default {
             if(typeof data.erreur !== 'undefined'){
               alert(data.erreur)
             }else{
-              this.windows.splice(i, 1);
+              //this.windows.splice(i, 1);
               this.$refs['edit-modal'].hide()
               console.log(data)
             }
@@ -186,12 +191,14 @@ export default {
     onSubmit: function (id){
       for (let i = 0; i < this.windows.length; i++) {
         if(this.windows[i].id === id){
-          const formData = new FormData();
-          formData.append('url', this.windows[i].url)
-          formData.append('width', parseInt(this.windows[i].width))
-          formData.append('height', parseInt(this.windows[i].height))
-          formData.append('posX', parseInt(this.windows[i].posX))
-          formData.append('posY', parseInt(this.windows[i].posY))
+          const formData = JSON.stringify({
+            url: this.windows[i].url,
+            width: this.windows[i].width.toString(),
+            height: this.windows[i].height.toString(),
+            posX: this.windows[i].posX.toString(),
+            posY: this.windows[i].posY.toString()
+          });
+          console.log(formData)
           fetch(options.API_WINDOW_URL+this.windows[i].id, {
             method: 'PUT',
             body: formData
@@ -201,11 +208,6 @@ export default {
             if(typeof data.error !== 'undefined'){
               alert(data.error)
             }else{
-              this.windows[i].url = this.modal.url
-              this.windows[i].width = parseInt(this.modal.width)
-              this.windows[i].height = parseInt(this.modal.height)
-              this.windows[i].posX = parseInt(this.modal.posX)
-              this.windows[i].posY = parseInt(this.modal.posY)
               this.$refs['edit-modal'].hide()
               console.log(data)
             }
