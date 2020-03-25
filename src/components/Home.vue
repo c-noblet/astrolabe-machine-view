@@ -1,70 +1,27 @@
 <template>
-  <section>
-    <div ref="container" class="screen" :style="'background:'+background">
+  <section :style="'background:'+background">
+    <div ref="container" class="screen">
       <ul>
         <li v-for="(item) in windows" :key="item.id">
           <Window 
             :window="item"
-            :editModal="editModal"
-            :iframeState="iframeState"
             :editMode="editMode"
+            @iframeLoaded="iframesState($event)"
           />
         </li>
       </ul>
       <CircleButton 
         v-if="editMode"
         :bg="background"
-        :setBackground="setBackground"
-        />
-      <b-modal ref="edit-modal" id="edit-modal" hide-footer>
-        <b-form>
-          <b-form-group
-            label="Entrez l'URL:"
-            label-for="edit-url"
-          >
-            <b-form-input
-              id="edit-url"
-              v-model="modal.url"
-              type="text"
-              required
-              placeholder="Entrer l'URL"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group label="Dimension:" label-for="edit-width" class="form-inline">
-            <b-form-input
-              id="edit-width"
-              v-model="modal.width"
-              required
-              placeholder="Entrer la longueur"
-            ></b-form-input>
-            <b-form-input
-              id="edit-height"
-              v-model="modal.height"
-              required
-              placeholder="Entrer la hauteur"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group label="Position:" label-for="edit-pos-x" class="form-inline">
-            <b-form-input
-              id="edit-pos-x"
-              v-model="modal.posX"
-              required
-              placeholder="Entrer la longueur"
-            ></b-form-input>
-            <b-form-input
-              id="edit-pos-y"
-              v-model="modal.posY"
-              required
-              placeholder="Entrer la hauteur"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-button type="button" class="mr-3" v-on:click="onSubmit(modal.id)" variant="primary">Sauvegarder</b-button>
-          <b-button type="button" v-on:click="deleteWindow(modal.id)" variant="danger">Supprimer</b-button>
-        </b-form>
-      </b-modal>
+        :editMode="editMode"
+        @openModal="modalName = $event"
+      />
+      <Modal 
+        :windows="windows"
+        :bg="background"
+        @windowAdded="pushNewWindow($event)"
+        @backgroundUpdated="reloadBackground($event)"
+      />
     </div>
     <div ref="loader" class="loader">
       <div>
@@ -77,14 +34,16 @@
 import options from '../../options.env'
 import Window from './Window'
 import CircleButton from './CircleButton'
+import Modal from './Modal'
 export default {
   name: 'Home',
   props: {
-    editMode: Boolean
+    editMode: Boolean,
+    state: Boolean
   },
   data () {
     return {
-      background: "",
+      background: '',
       modal: {
         id: Number,
         url: String,
@@ -94,7 +53,7 @@ export default {
         posY: String,
         loaded: Boolean
       },
-      windows: Array,
+      windows: [],
       promiseArray: []
     }
   },
@@ -107,48 +66,14 @@ export default {
       this.$refs['container'].style.display = 'block'
       this.$refs['loader'].style.display = 'none'
     },
-    setBackground: function (background) {
-      if(background == null){
-        console.log('error')
+    pushNewWindow(window){
+      this.windows.push(window)
+    },
+    reloadBackground: function (background) {
+      if(background.name){
+        this.background = "url('"+background.name+"')"
       }else{
-        //const formData = new FormData()
-        if (background.name) {
-          const formData = new FormData()
-          //let picUrl = background.webkitRelativePath
-          //this.background = "url('"+picUrl+"')"
-          //console.log(this.background) 
-          formData.append('image', background)
-          console.log(formData)
-          fetch(options.API_BACKGROUND_URL, {
-            method: 'PUT',
-            body: formData
-          })
-          .then((results) => results.json())
-          .then(data => {
-            if(typeof data.error !== 'undefined'){
-              alert(data.error)
-            }else{
-              console.log(data)
-            }
-          }).catch(function(err){
-            alert(err)
-          })
-        } else {
-          //formData.append("color", background.toString())
-          const formData = JSON.stringify({
-            color: background
-          })
-          console.log(formData)
-          fetch(options.API_BACKGROUND_URL, {
-            method: 'PUT',
-            body: formData
-          })
-          .then((results) => results.json())
-          .then((data) => {
-            console.log(data)
-            this.background = data.color
-          })
-        }
+        this.background = background.color
       }
     },
     getBackground: function () {
@@ -162,7 +87,8 @@ export default {
         }
       })
     },
-    iframeState: function (id) {
+    iframesState: function (id) {
+      console.log('win',id)
       let win = this.windows.find(x => x.id === id)
       this.promiseArray.push(win.loaded)
       if(this.promiseArray.length === this.windows.length){
@@ -184,65 +110,6 @@ export default {
       }).catch(function(err){
         alert(err)
       })
-    },
-    editModal: function (window) {
-      this.modal = window
-    },
-    deleteWindow: function (id) {
-      for (let i = 0; i < this.windows.length; i++) {
-        if(this.windows[i].id === id){
-          const formData = new FormData();
-          formData.append('id', this.windows[i].id)
-          fetch(options.API_WINDOW_URL+this.windows[i].id, {
-            method: 'DELETE',
-            body: formData
-          })
-          .then((results) => results.json())
-          .then(data => {
-            if(typeof data.erreur !== 'undefined'){
-              alert(data.erreur)
-            }else{
-              this.windows.splice(i, 1);
-              this.$refs['edit-modal'].hide()
-              console.log(data)
-            }
-          }).catch(function(err){
-            alert(err)
-          })
-        }
-      }
-    },
-    onSubmit: function (id){
-      for (let i = 0; i < this.windows.length; i++) {
-        if(this.windows[i].id === id){
-          const formData = JSON.stringify({
-            url: this.windows[i].url,
-            width: this.windows[i].width.toString(),
-            height: this.windows[i].height.toString(),
-            posX: this.windows[i].posX.toString(),
-            posY: this.windows[i].posY.toString()
-          });
-          console.log(formData)
-          fetch(options.API_WINDOW_URL+this.windows[i].id, {
-            method: 'PUT',
-            body: formData
-          })
-          .then((results) => results.json())
-          .then(data => {
-            if(typeof data.error !== 'undefined'){
-              alert(data.error)
-            }else{
-              this.$refs['edit-modal'].hide()
-              console.log(data)
-            }
-          }).catch(function(err){
-            alert(err)
-          })
-        }
-      }
-      this.$refs['edit-modal'].hide()
-      //this.calculPosAutreWindows(this.windows[id])
-
     },
     calculPosAutreWindows: function(laWindow) {
       for (let index in this.windows ){
@@ -284,7 +151,7 @@ export default {
     }
   },
   components: {
-    Window, CircleButton
+    Window, CircleButton, Modal
   }
 }
 </script>

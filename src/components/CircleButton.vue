@@ -8,92 +8,23 @@
       
       <div class="subs">
         <button class="sub-circle">
-          <input v-b-modal.add-modal class="hidden-sub-trigger" id="sub1" type="button" name="sub-circle" value="1"/>
-          <label for="sub1"><span><font-awesome-icon icon="plus"/></span></label>
+          <router-link v-b-modal.modal to="/edit/modal/add-window"><span><font-awesome-icon icon="plus"/></span></router-link>
         </button>
         <button class="sub-circle">
-          <input v-b-modal.bg-modal class="hidden-sub-trigger" id="sub2" type="button" name="sub-circle" value="1"/>
-          <label for="sub2"><span><font-awesome-icon icon="paint-roller"/></span></label>
+          <router-link v-b-modal.modal :to="{ name:'EditColor', params: { color: bg}}"><span><font-awesome-icon icon="paint-roller"/></span></router-link>
         </button>
         <button class="sub-circle">
-          <!--<input to="/veille" class="hidden-sub-trigger" id="sub3" type="button" name="sub-circle" value="1"/>-->
-          <router-link to="/veille"><span><font-awesome-icon icon="sync-alt"/></span></router-link>
+          <router-link :to="editUrl+'/veille'"><span><font-awesome-icon icon="sync-alt"/></span></router-link>
         </button>
       </div>
     </div>
-
-    <b-modal ref="add-modal" id="add-modal" hide-footer>
-      <b-form>
-        <b-form-group
-          label="Entrez l'URL:"
-          label-for="add-url"
-        >
-          <b-form-input
-            id="add-url"
-            v-model="modal.url"
-            type="text"
-            required
-            placeholder="Entrer l'URL"
-          ></b-form-input>
-        </b-form-group>
-
-        <b-form-group label="Dimension:" label-for="edit-width" class="form-inline">
-          <b-form-input
-            id="add-width"
-            v-model="modal.width"
-            required
-            placeholder="Entrer la longueur"
-          ></b-form-input>
-          <b-form-input
-            id="add-height"
-            v-model="modal.height"
-            required
-            placeholder="Entrer la hauteur"
-          ></b-form-input>
-        </b-form-group>
-
-        <b-form-group label="Position:" label-for="edit-pos-x" class="form-inline">
-          <b-form-input
-            id="add-pos-x"
-            v-model="modal.posX"
-            required
-            placeholder="Entrer la longueur"
-          ></b-form-input>
-          <b-form-input
-            id="add-pos-y"
-            v-model="modal.posY"
-            required
-            placeholder="Entrer la hauteur"
-          ></b-form-input>
-        </b-form-group>
-
-        <b-button type="button" v-on:click="onSubmit()" variant="primary">Ajouter</b-button>
-      </b-form>
-    </b-modal>
-
-    <b-modal ref="bg-modal" id="bg-modal" hide-footer>
-      <div>
-        <b-nav tabs fill>
-          <b-nav-item to="/" active>Couleur</b-nav-item>
-          <b-nav-item to="/picform">Image</b-nav-item>
-        </b-nav>
-      </div>
-      <b-form>
-        <router-view 
-          :bg="bg"
-          @backgroundUpdate="background = $event"
-        ></router-view>
-        <b-button type="button" v-on:click="setBackground(background)" variant="primary">Ajouter</b-button>
-      </b-form>
-    </b-modal>
   </div>
 </template>
 <script>
-import options from '../../options.env'
 export default {
   props: {
     bg: String,
-    setBackground: Function
+    editMode: Boolean
   },
   data() {
     return {
@@ -104,37 +35,21 @@ export default {
         posX: '',
         posY: ''
       },
-      background: null
+      background: null,
+      editUrl: ''
     }
   },
   mounted () {
+    if(this.editMode){
+      this.editUrl = '/edit'
+    }
     this.$on('backgroundUpdate', function (value){
       this.background = value
     })
   },
   methods: {
-    onSubmit: function () {
-      const formData = new FormData();
-      formData.append('url', this.modal.url)
-      formData.append('width', this.modal.width)
-      formData.append('height', this.modal.height)
-      formData.append('posX', this.modal.posX)
-      formData.append('posY', this.modal.posY)
-      console.log(formData)
-      fetch(options.API_WINDOW_URL, {
-        method: 'POST',
-        body: formData
-      })
-      .then((results) => results.json())
-      .then(data => {
-        if(typeof data.erreur !== 'undefined'){
-          alert(data.erreur)
-        }else{
-          //this.windows.push(data)
-        }
-      }).catch(function(err){
-        alert(err)
-      })
+    openModal: function (modalName) {
+      this.$emit('openModal', modalName)
     }
   }
 }

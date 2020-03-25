@@ -2,6 +2,7 @@
   <div id="app">
     <router-view
       :editMode="editMode"
+      :state="state"
     ></router-view>
   </div>
 </template>
@@ -9,7 +10,8 @@
 export default {
   data() {
     return {
-      editMode: false
+      editMode: false,
+      state: true
     }
   },
   mounted: function () {
