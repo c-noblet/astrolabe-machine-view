@@ -104,12 +104,11 @@ export default {
         posX: '',
         posY: ''
       },
-      background: ''
+      background: null
     }
   },
   mounted () {
     this.$on('backgroundUpdate', function (value){
-      console.log('emit', value)
       this.background = value
     })
   },

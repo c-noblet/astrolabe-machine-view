@@ -106,11 +106,30 @@ export default {
       if(background == null){
         console.log('error')
       }else{
-        if (background.picture != null) {
-          let picUrl = background.picture.webkitRelativePath + background.picture.name
-          this.background = "url('"+picUrl+"')"
-          console.log(this.background)
+        //const formData = new FormData()
+        if (background.name) {
+          const formData = new FormData()
+          //let picUrl = background.webkitRelativePath
+          //this.background = "url('"+picUrl+"')"
+          //console.log(this.background) 
+          formData.append('image', background)
+          console.log(formData)
+          fetch(options.API_BACKGROUND_URL, {
+            method: 'PUT',
+            body: formData
+          })
+          .then((results) => results.json())
+          .then(data => {
+            if(typeof data.error !== 'undefined'){
+              alert(data.error)
+            }else{
+              console.log(data)
+            }
+          }).catch(function(err){
+            alert(err)
+          })
         } else {
+          //formData.append("color", background.toString())
           const formData = JSON.stringify({
             color: background
           })
@@ -178,7 +197,7 @@ export default {
             if(typeof data.erreur !== 'undefined'){
               alert(data.erreur)
             }else{
-              //this.windows.splice(i, 1);
+              this.windows.splice(i, 1);
               this.$refs['edit-modal'].hide()
               console.log(data)
             }

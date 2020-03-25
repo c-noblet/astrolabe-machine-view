@@ -6,29 +6,34 @@
   >
     <b-form-file
     id="bg-pic"
-    v-model="background.picture"
-    :state="Boolean(background.picture)"
+    v-model="background"
+    :state="Boolean(background)"
     placeholder="Choose a file or drop it here..."
     drop-placeholder="Drop file here..."
-    @input="updateValue(background.picture)"
+    @input="backgroundUpdate"
   ></b-form-file>
-  <div class="mt-3">Selected file: {{ background.picture ? background.picture.name : '' }}</div>
+  <div class="mt-3">Selected file: {{ background ? background.name : '' }}</div>
   </b-form-group>
 </template>
 <script>
 export default {
   props: {
-    bg: Object
+    bg: String
   },
   data() {
     return {
-      background: this.bg
+      background: null
+    }
+  },
+  mounted: function(){
+    if(this.bg.substring(0,1) !== '#'){
+      this.background = this.bg
+      this.$refs['bg-pic'].value = this.bg
     }
   },
   methods: {
-    updateValue: function (value) {
-      console.log('emit')
-      this.$parent.$emit('backgroundUpdate', value);
+    backgroundUpdate: function() {
+      this.$emit('backgroundUpdate', this.background)
     }
   }
 }
