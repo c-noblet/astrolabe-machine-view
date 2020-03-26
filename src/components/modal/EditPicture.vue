@@ -19,6 +19,9 @@
 <script>
 import options from '../../../options.env'
 export default {
+  props: {
+    apiToken: String,
+  },
   data() {
     return {
       background: null
@@ -30,6 +33,9 @@ export default {
       formData.append('image', this.background)
       fetch(options.API_BACKGROUND_URL, {
         method: 'PUT',
+        headers: {
+          'X-Auth-Token': this.apiToken
+        },
         body: formData
       })
       .then((results) => results.json())

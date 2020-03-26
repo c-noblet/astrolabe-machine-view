@@ -17,6 +17,7 @@
         @openModal="modalName = $event"
       />
       <Modal 
+        :apiToken="apiToken"
         :windows="windows"
         :bg="background"
         @windowAdded="pushNewWindow($event)"
@@ -89,7 +90,6 @@ export default {
       })
     },
     iframesState: function (id) {
-      console.log('win',id)
       let win = this.windows.find(x => x.id === id)
       this.promiseArray.push(win.loaded)
       if(this.promiseArray.length === this.windows.length){

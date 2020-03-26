@@ -49,6 +49,9 @@
 <script>
 import options from '../../../options.env'
 export default {
+  props: {
+    apiToken: String,
+  },
   data() {
     return {
       modal: {}
@@ -62,9 +65,13 @@ export default {
       formData.append('height', this.modal.height)
       formData.append('posX', this.modal.posX)
       formData.append('posY', this.modal.posY)
+      formData.append('veille', false)
       console.log(formData)
       fetch(options.API_WINDOW_URL, {
         method: 'POST',
+        headers: {
+          'X-Auth-Token': this.apiToken
+        },
         body: formData
       })
       .then((results) => results.json())

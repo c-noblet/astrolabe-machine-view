@@ -19,6 +19,7 @@
 import options from '../../../options.env'
 export default {
   props: {
+    apiToken: String,
     color: String
   },
   data() {
@@ -34,7 +35,10 @@ export default {
         color: this.background
       })
       fetch(options.API_BACKGROUND_URL, {
-        method: 'PUT',
+        method: 'POST',
+        headers: {
+          'X-Auth-Token': this.apiToken
+        },
         body: formData
       })
       .then((results) => results.json())

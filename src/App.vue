@@ -20,8 +20,8 @@ export default {
     if(this.$route.fullPath.includes('/edit')){
       if(this.readCookie('apiToken') !== ''){
         this.editMode = true
-        this.apiToken = this.readCookie('apiToken')
-        console.log(this.apiToken)
+        this.apiToken = this.readCookie('apiToken').toString()
+        console.log('cookie',this.apiToken)
       }else{
         const formData = new FormData();
         formData.append('username', 'test')
@@ -36,13 +36,14 @@ export default {
         })
         .then((results) => results.json())
         .then(data => {
-          console.log(data)
           if(typeof data.erreur !== 'undefined'){
             alert(data.erreur)
           }else{
-            this.apiToken = data.token
+            this.apiToken = data.token.toString()
             this.writeCookie('apiToken', this.apiToken, 7)
+            console.log('fetch',this.apiToken)
           }
+          
         }).catch(function(err){
           alert(err)
         })
