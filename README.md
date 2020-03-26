@@ -10,15 +10,18 @@ yarn install
 yarn serve
 ```
 
+### Routes
+
+#### Mode borne
+```
+http://localhost:8080/
+```
+### Mode éditeur
+```
+http://localhost:8080/edit/
+```
+
 ### Compiles and minifies for production
 ```
 yarn build
 ```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
