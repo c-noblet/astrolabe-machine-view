@@ -39,7 +39,8 @@ export default {
   name: 'Home',
   props: {
     editMode: Boolean,
-    state: Boolean
+    state: Boolean,
+    apiToken: String
   },
   data () {
     return {
@@ -96,7 +97,7 @@ export default {
       }
     },
     getWindows: function () {
-      fetch(options.API_WINDOW_URL)
+      fetch(options.API_WINDOW_URL,)
       .then((results) => results.json())
       .then(data => {
         if(typeof data.erreur !== 'undefined'){
