@@ -5,6 +5,33 @@
       :state="state"
       :apiToken="apiToken"
     ></router-view>
+    <b-modal ref="loginModal" id="loginModal" title="Modal with Popover" hide-footer>
+      <b-form>
+        <b-form-group
+          label="Nom d'utilisateur:"
+          label-for="input-username"
+        >
+          <b-form-input
+            id="input-username"
+            v-model="form.username"
+            required
+            placeholder="Nom d'utilisateur"
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group label="Mot de passe:" label-for="input-password">
+          <b-form-input
+            id="input-password"
+            type="password"
+            v-model="form.password"
+            required
+            placeholder="Mot de passe"
+          ></b-form-input>
+        </b-form-group>
+
+        <b-button @click="onSubmit" variant="primary">Se connecter</b-button>
+      </b-form>
+    </b-modal>
   </div>
 </template>
 <script>
@@ -13,7 +40,11 @@ export default {
     return {
       editMode: false,
       state: true,
-      apiToken: ''
+      apiToken: '',
+      form: {
+        username: '',
+        password: ''
+      }
     }
   },
   mounted: function () {
@@ -23,14 +54,20 @@ export default {
         this.apiToken = this.readCookie('apiToken').toString()
         console.log('cookie',this.apiToken)
       }else{
-        const formData = new FormData();
-        formData.append('username', 'test')
-        formData.append('password', 'test')
-        /*const formData = JSON.stringify({
+        this.$refs['loginModal'].show()
+      }
+    }
+  },
+  methods: {
+    onSubmit: function () {
+      const formData = new FormData();
+      formData.append('username', 'test')
+      formData.append('password', 'test')
+      /*const formData = JSON.stringify({
           "username": "test",
           "password": "test"
         })*/
-        fetch('http://localhost:8000/api/user/login', {
+      fetch('http://localhost:8000/api/user/login', {
           method: 'POST',
           body: formData
         })
@@ -42,15 +79,13 @@ export default {
             this.apiToken = data.token.toString()
             this.writeCookie('apiToken', this.apiToken, 7)
             console.log('fetch',this.apiToken)
+            this.$refs['loginModal'].hide()
+            document.location.reload();
           }
-          
         }).catch(function(err){
           alert(err)
         })
-     }
-    }
-  },
-  methods: {
+    },
     // Ecrire un Cookie
     writeCookie: function (name, value, days) {
       let date, expires;
