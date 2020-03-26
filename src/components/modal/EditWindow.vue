@@ -1,0 +1,124 @@
+<template>
+  <b-form>
+    <b-form-group
+      label="Entrez l'URL:"
+      label-for="edit-url"
+    >
+      <b-form-input
+        id="edit-url"
+        v-model="modal.url"
+        type="text"
+        required
+        placeholder="Entrer l'URL"
+      ></b-form-input>
+    </b-form-group>
+
+    <b-form-group label="Dimension:" label-for="edit-width" class="form-inline">
+      <b-form-input
+        id="edit-width"
+        v-model="modal.width"
+        required
+        placeholder="Entrer la longueur"
+      ></b-form-input>
+      <b-form-input
+        id="edit-height"
+        v-model="modal.height"
+        required
+        placeholder="Entrer la hauteur"
+      ></b-form-input>
+    </b-form-group>
+
+    <b-form-group label="Position:" label-for="edit-pos-x" class="form-inline">
+      <b-form-input
+        id="edit-pos-x"
+        v-model="modal.posX"
+        required
+        placeholder="Entrer la longueur"
+      ></b-form-input>
+      <b-form-input
+        id="edit-pos-y"
+        v-model="modal.posY"
+        required
+        placeholder="Entrer la hauteur"
+      ></b-form-input>
+    </b-form-group>
+
+    <b-button type="button" class="mr-3" v-on:click="onSubmit()" variant="primary">Sauvegarder</b-button>
+    <b-button type="button" v-on:click="deleteWindow()" variant="danger">Supprimer</b-button>
+  </b-form>
+</template>
+<script>
+import options from '../../../options.env'
+export default {
+  props: {
+    windowId: String,
+    windows: Array
+  },
+  data() {
+    return {
+      modal: {
+        id: '',
+        url: '',
+        width: '',
+        height: '',
+        posX: '',
+        posY: ''
+      }
+    }
+  },
+  mounted: function () {
+    for (let i = 0; i < this.windows.length; i++) {
+      if(this.windows[i].id === parseInt(this.windowId)){
+        this.modal = this.windows[i]
+      }
+    }
+  },
+  methods: {
+    onSubmit: function (){
+      const formData = JSON.stringify({
+        url: this.modal.url,
+        width: this.modal.width.toString(),
+        height: this.modal.height.toString(),
+        posX: this.modal.posX.toString(),
+        posY: this.modal.posY.toString()
+      });
+      fetch(options.API_WINDOW_URL+this.modal.id, {
+        method: 'PUT',
+        body: formData
+      })
+      .then((results) => results.json())
+      .then(data => {
+        if(typeof data.error !== 'undefined'){
+          alert(data.error)
+        }else{
+          console.log(data)
+          this.$emit('closeModal', true)
+        }
+      }).catch(function(err){
+        alert(err)
+      })
+    },
+    deleteWindow: function () {
+      fetch(options.API_WINDOW_URL+this.modal.id, {
+        method: 'DELETE',
+      })
+      .then((results) => results.json())
+      .then(data => {
+        if(typeof data.erreur !== 'undefined'){
+          alert(data.erreur)
+        }else{
+          for (let i = 0; i < this.windows.length; i++) {
+            if(this.windows[i].id === this.modal.id){
+              this.windows.splice(i, 1);
+            }
+          }
+          this.$emit('closeModal', true)
+          console.log(data)
+        }
+      }).catch(function(err){
+        alert(err)
+      })
+    }
+  }
+}
+</script>

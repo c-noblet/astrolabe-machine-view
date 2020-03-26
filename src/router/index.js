@@ -3,8 +3,10 @@ import Router from 'vue-router'
 import Home from '../components/Home.vue'
 import Veille from '../components/Veille.vue'
 import Fullscreen from '../components/Fullscreen.vue'
-import ColorForm from '../components/BackgroundModal/ColorForm.vue'
-import PicForm from '../components/BackgroundModal/PictureForm.vue'
+import EditColor from '../components/modal/EditColor.vue'
+import EditPicture from '../components/modal/EditPicture.vue'
+import AddWindow from '../components/modal/AddWindow.vue'
+import EditWindow from '../components/modal/EditWindow.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -16,20 +18,12 @@ export default new Router({
       props: true,
       name: 'Home',
       component: Home,
-      children: [
-        {
-          path: '/picform',
-          props: true,
-          name: 'PicForm',
-          component: PicForm
-        },
-        {
-          path: '/',
-          props: true,
-          name: 'ColorForm',
-          component: ColorForm
-        }
-      ]
+    },
+    {
+      path: '/fullscreen/',
+      props: true,
+      name: 'Fullscreen',
+      component: Fullscreen
     },
     {
       path: '/veille/',
@@ -38,11 +32,75 @@ export default new Router({
       component: Veille
     },
     {
-      path: '/fullscreen/',
+      path: '/edit/',
       props: true,
-      name: 'Fullscreen',
+      name: 'EditHome',
+      component: Home,
+      children: [
+        {
+          path: '/edit/modal/edit-picture/',
+          props: true,
+          name: 'EditPicture',
+          component: EditPicture
+        },
+        {
+          path: '/edit/modal/edit-color',
+          props: true,
+          name: 'EditColor',
+          component: EditColor
+        },
+        {
+          path: '/edit/modal/add-window',
+          props: true,
+          name: 'AddWindow',
+          component: AddWindow
+        },
+        {
+          path: '/edit/modal/edit-window',
+          props: true,
+          name: 'EditWindow',
+          component: EditWindow
+        }
+      ]
+    },
+    {
+      path: '/edit/veille/',
+      props: true,
+      name: 'EditVeille',
+      component: Veille,
+      children: [
+        {
+          path: '/edit/modal/edit-picture/',
+          props: true,
+          name: 'EditPicture',
+          component: EditPicture
+        },
+        {
+          path: '/edit/modal/edit-color',
+          props: true,
+          name: 'EditColor',
+          component: EditColor
+        },
+        {
+          path: '/edit/modal/add-window',
+          props: true,
+          name: 'AddWindow',
+          component: AddWindow
+        },
+        {
+          path: '/edit/modal/edit-window',
+          props: true,
+          name: 'EditWindow',
+          component: EditWindow
+        }
+      ]
+    },
+    {
+      path: '/edit/fullscreen/',
+      props: true,
+      name: 'EditFullscreen',
       component: Fullscreen
-    }
+    },
   ],
   scrollBehavior () {
     return { x: 0, y: 0 }
