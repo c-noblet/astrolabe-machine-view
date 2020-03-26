@@ -51,6 +51,7 @@
 import options from '../../../options.env'
 export default {
   props: {
+    apiToken: String,
     windowId: String,
     windows: Array
   },
@@ -80,10 +81,14 @@ export default {
         width: this.modal.width.toString(),
         height: this.modal.height.toString(),
         posX: this.modal.posX.toString(),
-        posY: this.modal.posY.toString()
+        posY: this.modal.posY.toString(),
+        veille: 'false'
       });
       fetch(options.API_WINDOW_URL+this.modal.id, {
         method: 'PUT',
+        headers: {
+          'X-Auth-Token': this.apiToken
+        },
         body: formData
       })
       .then((results) => results.json())
@@ -99,8 +104,14 @@ export default {
       })
     },
     deleteWindow: function () {
+      //const myHeaders = new Headers();
+     //myHeaders.append("Access-Control-Allow-Origin", "*")
+      //myHeaders.append('X-Auth-Token', this.apiToken)
       fetch(options.API_WINDOW_URL+this.modal.id, {
         method: 'DELETE',
+        headers: {
+          'X-Auth-Token': this.apiToken
+        }
       })
       .then((results) => results.json())
       .then(data => {

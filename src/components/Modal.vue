@@ -5,6 +5,7 @@
       <b-nav-item :active="choice2.active" :to="choice2.url">{{ choice2.name }}</b-nav-item>
     </b-nav>
     <router-view 
+      :apiToken="apiToken"
       :windows="windows" 
       @closeModal="closeModal()"
       @windowAdded="windowAdded($event)"
@@ -15,6 +16,7 @@
 <script>
 export default {
   props:{
+    apiToken: String,
     windows: Array,
     bg: String
   },
@@ -35,6 +37,7 @@ export default {
   },
   methods: {
     closeModal: function () {
+      this.$router.push('/edit/');
       this.$refs['modal'].hide()
     },
     windowAdded: function (window) {
