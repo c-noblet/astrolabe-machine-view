@@ -17,7 +17,7 @@
           <router-link :to="editUrl+'/veille'"><span><font-awesome-icon icon="sync-alt"/></span></router-link>
         </button>
         <button class="sub-circle">
-          <router-link :to="editUrl+'/veille'"><span><font-awesome-icon icon="user"/></span></router-link>
+          <router-link v-b-modal.modal to="/edit/modal/user"><span><font-awesome-icon icon="user"/></span></router-link>
         </button>
       </div>
     </div>
