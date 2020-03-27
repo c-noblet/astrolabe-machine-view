@@ -4,7 +4,7 @@
       <iframe v-if="window.youtube" :onload="iframeloaded()" :ref="'iframe-'+window.id" :src="'https://www.youtube.com/embed/'+playlistUrl+window.url+autoplay"  frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
       <iframe v-if="!window.youtube" :onload="iframeloaded()" :ref="'iframe-'+window.id" :src="window.url" frameborder="0"></iframe>
       <router-link v-if="!window.youtube" class="fullscreen" :to="{ name: 'Fullscreen', params: { url: window.url}}"></router-link>
-      <router-link class="btn btn-warning" v-if="editMode" :to="{ name: 'EditWindow', params: { windowId: window.id.toString()}}" squared v-b-modal.modal>Modifier</router-link>
+      <router-link class="btn btn-warning" v-if="editMode" :to="{ path: '/edit/'+veilleUrl+'modal/edit-window', params: { windowId: window.id.toString()}}" squared v-b-modal.modal>Modifier</router-link>
     </div>
   </div>
 </template>
@@ -13,18 +13,22 @@ export default {
   name: 'Window',
   props: {
     window: Object,
-    editMode: Boolean,
+    editMode: Boolean
   },
   data() {
     return {
       playlistUrl: '',
-      autoplay: '?autoplay=1'
+      autoplay: '?autoplay=1',
+      veilleUrl: '',
     }
   },
   created: function () {
     if(this.window.playlist){
       this.playlistUrl = 'videoseries?list='
       this.autoplay = '&autoplay=1'
+    }
+    if(this.$route.fullPath.includes('veille')){
+      this.veilleUrl = 'veille/'
     }
   },
   methods:{
