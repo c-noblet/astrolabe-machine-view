@@ -8,16 +8,16 @@
       
       <div class="subs">
         <button class="sub-circle">
-          <router-link v-b-modal.modal to="/edit/modal/add-window"><span><font-awesome-icon icon="plus"/></span></router-link>
+          <router-link v-b-modal.modal :to="{ path:'/edit/'+veilleUrl+'modal/add-window'}"><span><font-awesome-icon icon="plus"/></span></router-link>
         </button>
         <button class="sub-circle">
-          <router-link v-b-modal.modal :to="{ name:'EditColor', params: { color: bg}}"><span><font-awesome-icon icon="paint-roller"/></span></router-link>
+          <router-link v-b-modal.modal :to="{ path:'/edit/'+veilleUrl+'modal/edit-color', params: { color: bg}}"><span><font-awesome-icon icon="paint-roller"/></span></router-link>
         </button>
         <button class="sub-circle">
-          <router-link :to="editUrl+'/veille'"><span><font-awesome-icon icon="sync-alt"/></span></router-link>
+          <router-link :to="editUrl+'/'+changementUrl"><span><font-awesome-icon icon="sync-alt"/></span></router-link>
         </button>
         <button class="sub-circle">
-          <router-link v-b-modal.modal to="/edit/modal/user"><span><font-awesome-icon icon="user"/></span></router-link>
+          <router-link v-b-modal.modal :to="{ path:'/edit/'+veilleUrl+'modal/user'}"><span><font-awesome-icon icon="user"/></span></router-link>
         </button>
       </div>
     </div>
@@ -39,7 +39,16 @@ export default {
         posY: ''
       },
       background: null,
-      editUrl: ''
+      editUrl: '',
+      veilleUrl: '',
+      changementUrl: ''
+    }
+  },
+  created: function () {
+    if(this.$route.fullPath.includes('veille')){
+      this.veilleUrl = 'veille/'
+    } else {
+      this.changementUrl = 'veille'
     }
   },
   mounted () {
