@@ -58,7 +58,13 @@ export default {
   },
   data() {
     return {
-      modal: {}
+      modal: {
+        url: '',
+        width: '',
+        height: '',
+        posX: '',
+        posY: ''
+      }
     }
   },
   methods: {
@@ -72,7 +78,6 @@ export default {
       formData.append('youtube', false)
       formData.append('playlist', false)
       formData.append('veille', false)
-      console.log(formData)
       fetch(options.API_WINDOW_URL, {
         method: 'POST',
         headers: {

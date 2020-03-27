@@ -103,10 +103,6 @@ export default {
           alert(data.erreur)
         }else{
           this.windows = data
-          for (let i = 0; i < this.windows.length; i++) {
-            this.windows[1].youtube = true
-            this.windows[1].playlist = true
-          }
         }
       }).catch(function(err){
         alert(err)

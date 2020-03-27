@@ -5,7 +5,7 @@
       <iframe v-if="!window.youtube" :onload="iframeloaded()" :ref="'iframe-'+window.id" :src="window.url" frameborder="0"></iframe>
       <router-link v-if="!window.youtube" class="fullscreen" :to="{ name: 'Fullscreen', params: { url: window.url}}"></router-link>
       <router-link class="btn btn-warning" v-if="editMode" :to="{ name: 'EditWindow', params: { windowId: window.id.toString()}}" squared v-b-modal.modal>Modifier</router-link>
-    </div><iframe width="560" height="315" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
   </div>
 </template>
 <script>

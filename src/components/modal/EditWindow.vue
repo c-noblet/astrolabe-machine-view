@@ -14,33 +14,37 @@
     </b-form-group>
 
     <b-form-group label="Dimension:" label-for="edit-width" class="form-inline">
-      <b-form-input
-        id="edit-width"
-        v-model="modal.width"
-        required
-        placeholder="Entrer la longueur"
-      ></b-form-input>
-      <b-form-input
-        id="edit-height"
-        v-model="modal.height"
-        required
-        placeholder="Entrer la hauteur"
-      ></b-form-input>
+      <div class="d-flex justify-content-between">
+        <b-form-input
+          id="edit-width"
+          v-model="modal.width"
+          required
+          placeholder="Entrer la longueur"
+        ></b-form-input>
+        <b-form-input
+          id="edit-height"
+          v-model="modal.height"
+          required
+          placeholder="Entrer la hauteur"
+        ></b-form-input>
+      </div>
     </b-form-group>
 
     <b-form-group label="Position:" label-for="edit-pos-x" class="form-inline">
-      <b-form-input
-        id="edit-pos-x"
-        v-model="modal.posX"
-        required
-        placeholder="Entrer la longueur"
-      ></b-form-input>
-      <b-form-input
-        id="edit-pos-y"
-        v-model="modal.posY"
-        required
-        placeholder="Entrer la hauteur"
-      ></b-form-input>
+      <div class="d-flex justify-content-between">
+        <b-form-input
+          id="edit-pos-x"
+          v-model="modal.posX"
+          required
+          placeholder="Entrer la longueur"
+        ></b-form-input>
+        <b-form-input
+          id="edit-pos-y"
+          v-model="modal.posY"
+          required
+          placeholder="Entrer la hauteur"
+        ></b-form-input>
+      </div>
     </b-form-group>
 
     <b-button type="button" class="mr-3" v-on:click="onSubmit()" variant="primary">Sauvegarder</b-button>
@@ -96,7 +100,6 @@ export default {
         if(typeof data.error !== 'undefined'){
           alert(data.error)
         }else{
-          console.log(data)
           this.$emit('closeModal', true)
         }
       }).catch(function(err){
@@ -124,7 +127,6 @@ export default {
             }
           }
           this.$emit('closeModal', true)
-          console.log(data)
         }
       }).catch(function(err){
         alert(err)

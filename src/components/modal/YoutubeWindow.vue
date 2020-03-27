@@ -14,7 +14,7 @@
     </b-form-group>
     <b-form-checkbox
       id="checkbox-playlist"
-      class="mb-3"
+      class="mb-2"
       v-model="modal.playlist"
       name="checkbox-playlist"
       :value="true"
@@ -38,7 +38,6 @@
         ></b-form-input>
       </div>
     </b-form-group>
-
 
     <b-form-group label="Position:" label-for="edit-pos-x" class="form-inline">
       <div class="d-flex justify-content-between">
@@ -68,7 +67,14 @@ export default {
   },
   data() {
     return {
-      modal: {}
+      modal: {
+        url: '',
+        width: '',
+        height: '',
+        posX: '',
+        posY: '',
+        playlist: false,
+      }
     }
   },
   methods: {
@@ -82,7 +88,6 @@ export default {
       formData.append('youtube', true)
       formData.append('playlist', this.modal.playlist)
       formData.append('veille', false)
-      console.log(formData)
       fetch(options.API_WINDOW_URL, {
         method: 'POST',
         headers: {

@@ -48,7 +48,6 @@ export default {
     }
   },
   beforeUpdate: function () {
-    console.log(this.$route.fullPath.includes('/modal/edit-color'))
     if(this.$route.fullPath.includes('/modal/edit-color')){
 
       this.navs = true
