@@ -16,6 +16,9 @@
         <button class="sub-circle">
           <router-link :to="editUrl+'/veille'"><span><font-awesome-icon icon="sync-alt"/></span></router-link>
         </button>
+        <button class="sub-circle">
+          <router-link :to="editUrl+'/veille'"><span><font-awesome-icon icon="user"/></span></router-link>
+        </button>
       </div>
     </div>
   </div>
@@ -65,9 +68,8 @@ button {
 }
 .wrapper{
   position: absolute;
-  bottom: 0px;
-  right: 0px;
-  transform: translate(-40%, -40%) scale(-1, 1);
+  bottom: 50px;
+  right: 50px;
   width: 60px;
   height: 60px;
 }
@@ -99,18 +101,6 @@ button {
     cursor: pointer;
     background-color: lighten($circle, 10%);
     box-shadow: 0 8px 15px 0 rgba(0,0,0,0.3);
-  }
-
-  img{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-left: -15px;
-    margin-top: -15px;
-    width: 30px;
-    height: 30px;
-    transition: 0.5s;
-    transform: rotate(180deg);
   }
 } 
 .sub-circle{
@@ -153,10 +143,9 @@ button {
   margin: 0 auto;
   position: relative;
 } 
+
 $transition: 0.1;
-$transalteValue: 100;
-$translate75: $transalteValue*0.75 ;
-  
+$translateValue: 50;  
 
 .hidden-sub-trigger{
   display: none;
@@ -172,48 +161,25 @@ $translate75: $transalteValue*0.75 ;
     background-color: lighten($circle, 10%);
     box-shadow: 0 8px 15px 0 rgba(0,0,0,0.1);
   }
-  &:checked ~ .circle img{
-    transform: rotate(45deg);
-  }
   &:checked ~ .subs button:nth-of-type(1){
-    transform: translate(0px, -$transalteValue + px) scale(1);
+    transform: translate(-$translateValue + px, 0px) scale(1);
     opacity: 1;
     transition: $transition + s;
   }
   &:checked ~ .subs button:nth-of-type(2){
-    transform: translate($translate75 + px, -$translate75 + px) scale(1);
+    transform: translate(-$translateValue * 2 + px, 0px) scale(1);
     opacity: 1;
     transition: $transition * 2 + s;
   }
   &:checked ~ .subs button:nth-of-type(3){
-    transform: translate($transalteValue + px, 0px) scale(1);
+    transform: translate(-$translateValue * 3 + px, 0px) scale(1);
     opacity: 1;
     transition: $transition * 3 + s;
   }
   &:checked ~ .subs button:nth-of-type(4){
-    transform: translate($translate75 + px, $translate75 + px) scale(1);
+    transform: translate(-$translateValue * 4 + px, 0px) scale(1);
     opacity: 1;
     transition: $transition * 4 + s;
-  }
-  &:checked ~ .subs button:nth-of-type(5){
-    transform: translate(0px, $transalteValue + px) scale(1);
-    opacity: 1;
-    transition: $transition * 5 + s;
-  }  
-  &:checked ~ .subs button:nth-of-type(6){
-    transform: translate(-$translate75 + px, $translate75 + px) scale(1);
-    opacity: 1;
-    transition: $transition * 6 + s;
-  }
-  &:checked ~ .subs button:nth-of-type(7){
-    transform: translate(-$transalteValue + px, 0px) scale(1);
-    opacity: 1;
-    transition: $transition * 7 + s;
-  }
-  &:checked ~ .subs button:nth-of-type(8){
-    transform: translate(-$translate75 + px, -$translate75 + px) scale(1);
-    opacity: 1;
-    transition: $transition * 8 + s;
   }
 }
 </style>

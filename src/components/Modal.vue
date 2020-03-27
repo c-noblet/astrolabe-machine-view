@@ -65,7 +65,7 @@ export default {
 
       this.navs = true
       this.choice1 = {name:'Fenêtre simple', url:'add-window', active:true}
-      this.choice2 = {name:'Fenêtre Youtube', url:'edit-picture', active:false}
+      this.choice2 = {name:'Fenêtre Youtube', url:'add-yt-window', active:false}
 
     } else if(this.$route.fullPath.includes('/modal/add-yt-window')){
 

@@ -14,33 +14,37 @@
     </b-form-group>
 
     <b-form-group label="Dimension:" label-for="edit-width" class="form-inline">
-      <b-form-input
-        id="add-width"
-        v-model="modal.width"
-        required
-        placeholder="Entrer la longueur"
-      ></b-form-input>
-      <b-form-input
-        id="add-height"
-        v-model="modal.height"
-        required
-        placeholder="Entrer la hauteur"
-      ></b-form-input>
+      <div class="d-flex justify-content-between">
+        <b-form-input
+          id="add-width"
+          v-model="modal.width"
+          required
+          placeholder="Entrer la longueur"
+        ></b-form-input>
+        <b-form-input
+          id="add-height"
+          v-model="modal.height"
+          required
+          placeholder="Entrer la hauteur"
+        ></b-form-input>
+      </div>
     </b-form-group>
 
     <b-form-group label="Position:" label-for="edit-pos-x" class="form-inline">
-      <b-form-input
-        id="add-pos-x"
-        v-model="modal.posX"
-        required
-        placeholder="Entrer la longueur"
-      ></b-form-input>
-      <b-form-input
-        id="add-pos-y"
-        v-model="modal.posY"
-        required
-        placeholder="Entrer la hauteur"
-      ></b-form-input>
+      <div class="d-flex justify-content-between">
+        <b-form-input
+          id="add-pos-x"
+          v-model="modal.posX"
+          required
+          placeholder="Entrer la longueur"
+        ></b-form-input>
+        <b-form-input
+          id="add-pos-y"
+          v-model="modal.posY"
+          required
+          placeholder="Entrer la hauteur"
+        ></b-form-input>
+      </div>
     </b-form-group>
     
     <b-button type="button" v-on:click="onSubmit()" variant="primary">Ajouter</b-button>
@@ -65,6 +69,8 @@ export default {
       formData.append('height', this.modal.height)
       formData.append('posX', this.modal.posX)
       formData.append('posY', this.modal.posY)
+      formData.append('youtube', false)
+      formData.append('playlist', false)
       formData.append('veille', false)
       console.log(formData)
       fetch(options.API_WINDOW_URL, {

@@ -90,8 +90,7 @@ export default {
       })
     },
     iframesState: function (id) {
-      let win = this.windows.find(x => x.id === id)
-      this.promiseArray.push(win.loaded)
+      this.promiseArray.push(id)
       if(this.promiseArray.length === this.windows.length){
         Promise.all(this.promiseArray).then(this.showApp())
       }
@@ -105,7 +104,8 @@ export default {
         }else{
           this.windows = data
           for (let i = 0; i < this.windows.length; i++) {
-            this.windows[i].loaded = false
+            this.windows[1].youtube = true
+            this.windows[1].playlist = true
           }
         }
       }).catch(function(err){

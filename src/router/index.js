@@ -6,6 +6,7 @@ import Fullscreen from '../components/Fullscreen.vue'
 import EditColor from '../components/modal/EditColor.vue'
 import EditPicture from '../components/modal/EditPicture.vue'
 import AddWindow from '../components/modal/AddWindow.vue'
+import YoutubeWindow from '../components/modal/YoutubeWindow.vue'
 import EditWindow from '../components/modal/EditWindow.vue'
 Vue.use(Router)
 
@@ -54,6 +55,12 @@ export default new Router({
           props: true,
           name: 'AddWindow',
           component: AddWindow
+        },
+        {
+          path: '/edit/modal/add-yt-window',
+          props: true,
+          name: 'YoutubeWindow',
+          component: YoutubeWindow
         },
         {
           path: '/edit/modal/edit-window',
