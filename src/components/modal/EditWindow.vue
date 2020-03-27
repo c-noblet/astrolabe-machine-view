@@ -13,6 +13,18 @@
       ></b-form-input>
     </b-form-group>
 
+    <b-form-checkbox
+      v-if="modal.youtube"
+      id="checkbox-playlist"
+      class="mb-2"
+      v-model="modal.playlist"
+      name="checkbox-playlist"
+      :value="true"
+      :unchecked-value="false"
+    >
+      Playlist YouTube
+    </b-form-checkbox>
+
     <b-form-group label="Dimension:" label-for="edit-width" class="form-inline">
       <div class="d-flex justify-content-between">
         <b-form-input
@@ -67,7 +79,7 @@ export default {
         width: '',
         height: '',
         posX: '',
-        posY: ''
+        posY: '',
       }
     }
   },
@@ -86,6 +98,8 @@ export default {
         height: this.modal.height.toString(),
         posX: this.modal.posX.toString(),
         posY: this.modal.posY.toString(),
+        youtube: this.modal.youtube.toString(),
+        playlist: this.modal.playlist.toString(),
         veille: 'false'
       });
       fetch(options.API_WINDOW_URL+this.modal.id, {

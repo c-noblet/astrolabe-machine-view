@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="wrapper">
-      <input class="hidden-trigger" id="toogle" type="checkbox">
-      <label class="shadow circle" for="toogle">
+      <input class="hidden-trigger" id="toggle" type="checkbox">
+      <label class="circle" for="toggle">
         <span><font-awesome-icon icon="ellipsis-h"/></span>
       </label>
       
@@ -65,6 +65,7 @@ $sub-circle: rgb(42, 77, 143);
 button {
   border: none;
   outline: none;
+  background-color: #2a4d8f;
 }
 .wrapper{
   position: absolute;
