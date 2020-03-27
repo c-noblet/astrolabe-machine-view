@@ -1,27 +1,51 @@
 <template>
   <b-form>
-    <b-form-group
-      label="Entrez l'URL:"
-      label-for="edit-url"
+        <b-form-group
+      label="Saisissez votre mot de passe:"
+      label-for="oldPassword"
     >
       <b-form-input
-        id="edit-url"
-        v-model="modal.url"
-        type="text"
+        id="oldPassword"
+        v-model="oldPassword"
+        type="password"
         required
-        placeholder="Entrer l'URL"
+        placeholder=""
       ></b-form-input>
     </b-form-group>
 
-    <b-button type="button" class="mr-3" v-on:click="onSubmit()" variant="primary">Sauvegarder</b-button>
+    <b-form-group
+      label="Saisissez votre nouveau mot de passe:"
+      label-for="newPassword"
+    >
+      <b-form-input
+        id="newPassword"
+        class="mb-2"
+        v-model="password1"
+        type="password"
+        required
+        placeholder=""
+      ></b-form-input>
+      <b-form-input
+        v-model="password2"
+        type="password"
+        required
+        placeholder=""
+      ></b-form-input>
+    </b-form-group>
+
+    <b-button type="button" v-on:click="onSubmit()" variant="primary"><b-spinner ref="spinner" small type="grow"></b-spinner> Sauvergarder</b-button>
   </b-form>
 </template>
 <script>
 export default {
+  props: {
+    apiToken: String
+  },
   data() {
     return {
       password1: '',
       password2: '',
+      oldPassword: '',
       warning: false
     }
   },
@@ -30,15 +54,19 @@ export default {
       if(this.password1 !== this.password2){
         this.warning = true
       }else{
+        this.$refs['spinner'].style.display = 'inline-block'
         const formData = new FormData();
-        formData.append('username', 'test')
-        formData.append('password', 'test')
+        formData.append('password', this.oldPassword)
+        formData.append('newpassword', this.password1)
         /*const formData = JSON.stringify({
           "username": "test",
           "password": "test"
         })*/
-        fetch('http://localhost:8000/api/user/login', {
+        fetch('http://localhost:8000/api/user/changepassword', {
           method: 'POST',
+          headers: {
+          'X-Auth-Token': this.apiToken
+          },
           body: formData
         })
         .then((results) => results.json())
@@ -46,12 +74,9 @@ export default {
           if(typeof data.erreur !== 'undefined'){
             alert(data.erreur)
           }else{
-            this.apiToken = data.token.toString()
-            this.writeCookie('apiToken', this.apiToken, 7)
-            console.log('fetch',this.apiToken)
-            this.$refs['loginModal'].hide()
-            document.location.reload();
+            this.$emit('closeModal', true)
           }
+          this.$refs['spinner'].style.display = ''
         }).catch(function(err){
           alert(err)
         })
