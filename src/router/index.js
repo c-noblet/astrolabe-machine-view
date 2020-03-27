@@ -77,25 +77,25 @@ export default new Router({
       component: Veille,
       children: [
         {
-          path: '/edit/modal/edit-picture/',
+          path: '/edit/veille/modal/edit-picture/',
           props: true,
           name: 'EditPicture',
           component: EditPicture
         },
         {
-          path: '/edit/modal/edit-color',
+          path: '/edit/veille/modal/edit-color',
           props: true,
           name: 'EditColor',
           component: EditColor
         },
         {
-          path: '/edit/modal/add-window',
+          path: '/edit/veille/modal/add-window',
           props: true,
           name: 'AddWindow',
           component: AddWindow
         },
         {
-          path: '/edit/modal/edit-window',
+          path: '/edit/veille/modal/edit-window',
           props: true,
           name: 'EditWindow',
           component: EditWindow
