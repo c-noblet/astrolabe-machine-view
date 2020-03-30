@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" ontouchstart="">
     <router-view
       :editMode="editMode"
       :state="state"
@@ -61,12 +61,8 @@ export default {
   methods: {
     onSubmit: function () {
       const formData = new FormData();
-      formData.append('username', 'test')
-      formData.append('password', 'test')
-      /*const formData = JSON.stringify({
-          "username": "test",
-          "password": "test"
-        })*/
+      formData.append('username', this.form.username)
+      formData.append('password', this.form.password)
       fetch('http://localhost:8000/api/user/login', {
           method: 'POST',
           body: formData
