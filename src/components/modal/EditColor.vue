@@ -29,11 +29,9 @@ export default {
   },
   methods: {
     onSubmit: function () {
-      //const formData = new FormData()
-      //formData.append('color', this.background.toString())
-      const formData = JSON.stringify({
-        color: this.background
-      })
+      const formData = new FormData()
+      formData.append('color', this.background.toString())
+      formData.append('veille', this.$route.fullPath.includes('veille').toString())
       fetch(options.API_BACKGROUND_URL, {
         method: 'POST',
         headers: {
@@ -43,6 +41,7 @@ export default {
       })
       .then((results) => results.json())
       .then((data) => {
+        console.log(data)
         this.$emit('backgroundUpdated', data)
         this.$emit('closeModal', true)
       })
