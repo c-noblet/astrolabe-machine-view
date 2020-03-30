@@ -6,7 +6,8 @@
     </b-nav>
     <router-view 
       :apiToken="apiToken"
-      :windows="windows" 
+      :windows="windows"
+      :color="bg"
       @closeModal="closeModal()"
       @windowAdded="windowAdded($event)"
       @backgroundUpdated="backgroundUpdated($event)"
@@ -37,7 +38,12 @@ export default {
   },
   methods: {
     closeModal: function () {
-      this.$router.push('/edit/');
+      if(this.$route.fullPath.includes('veille')){
+        this.$router.push('/edit/veille');
+      }else{
+        this.$router.push('/edit/');
+      }
+      
       this.$refs['modal'].hide()
     },
     windowAdded: function (window) {
