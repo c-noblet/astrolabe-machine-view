@@ -9,7 +9,7 @@
         v-model="modal.url"
         type="text"
         required
-        placeholder="Entrer l'URL"
+        placeholder="URL"
       ></b-form-input>
     </b-form-group>
     <b-form-checkbox
@@ -28,13 +28,13 @@
           id="add-width"
           v-model="modal.width"
           required
-          placeholder="Entrer la longueur"
+          placeholder="Horizontale"
         ></b-form-input>
         <b-form-input
           id="add-height"
           v-model="modal.height"
           required
-          placeholder="Entrer la hauteur"
+          placeholder="Verticale"
         ></b-form-input>
       </div>
     </b-form-group>
@@ -45,13 +45,13 @@
           id="add-pos-x"
           v-model="modal.posX"
           required
-          placeholder="Entrer la longueur"
+          placeholder="Position X"
         ></b-form-input>
         <b-form-input
           id="add-pos-y"
           v-model="modal.posY"
           required
-          placeholder="Entrer la hauteur"
+          placeholder="Position Y"
         ></b-form-input>
       </div>
     </b-form-group>
