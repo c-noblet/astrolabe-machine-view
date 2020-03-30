@@ -72,8 +72,8 @@ export default {
       this.windows.push(window)
     },
     reloadBackground: function (background) {
-      if(background.name){
-        this.background = "url('"+background.name+"')"
+      if(background.includes('http://')){
+        document.location.reload();
       }else{
         this.background = background.color
       }
@@ -84,9 +84,9 @@ export default {
       .then(data => {
         if(data.color){
           this.background = data.color
-        }else{
-          this.background = "url('"+data.image+"')"
         }
+      }).catch(() => {
+        this.background = "url('"+options.API_BACKGROUND_URL+"');background-position:center;background-size:100% 100%;background-repeat:no-repeat;"
       })
     },
     iframesState: function (id) {

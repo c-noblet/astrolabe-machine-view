@@ -50,6 +50,7 @@ export default {
       this.$emit('windowAdded', window)
     },
     backgroundUpdated: function (background) {
+      console.log(background)
       this.$emit('backgroundUpdated', background)
     }
   },
