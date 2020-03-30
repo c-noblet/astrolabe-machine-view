@@ -58,10 +58,6 @@ export default {
         const formData = new FormData();
         formData.append('password', this.oldPassword)
         formData.append('newpassword', this.password1)
-        /*const formData = JSON.stringify({
-          "username": "test",
-          "password": "test"
-        })*/
         fetch('http://localhost:8000/api/user/changepassword', {
           method: 'POST',
           headers: {
@@ -71,6 +67,7 @@ export default {
         })
         .then((results) => results.json())
         .then(data => {
+          console.log(data)
           if(typeof data.erreur !== 'undefined'){
             alert(data.erreur)
           }else{

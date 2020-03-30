@@ -94,6 +94,7 @@ export default {
   },
   methods: {
     onSubmit: function (){
+      this.$refs['spinner'].style.display = 'inline-block'
       const formData = JSON.stringify({
         url: this.modal.url,
         width: this.modal.width.toString(),
@@ -118,14 +119,13 @@ export default {
         }else{
           this.$emit('closeModal', true)
         }
+        this.$refs['spinner'].style.display = ''
       }).catch(function(err){
         alert(err)
       })
     },
     deleteWindow: function () {
-      //const myHeaders = new Headers();
-     //myHeaders.append("Access-Control-Allow-Origin", "*")
-      //myHeaders.append('X-Auth-Token', this.apiToken)
+      this.$refs['spinner'].style.display = 'inline-block'
       fetch(options.API_WINDOW_URL+this.modal.id, {
         method: 'DELETE',
         headers: {
@@ -144,6 +144,7 @@ export default {
           }
           this.$emit('closeModal', true)
         }
+        this.$refs['spinner'].style.display = ''
       }).catch(function(err){
         alert(err)
       })

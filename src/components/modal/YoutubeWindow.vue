@@ -56,7 +56,7 @@
       </div>
     </b-form-group>
     
-    <b-button type="button" v-on:click="onSubmit()" variant="primary">Ajouter</b-button>
+    <b-button type="button" v-on:click="onSubmit()" variant="primary"><b-spinner ref="spinner" small type="grow"></b-spinner> Ajouter</b-button>
   </b-form>
 </template>
 <script>

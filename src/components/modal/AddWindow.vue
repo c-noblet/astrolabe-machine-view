@@ -47,7 +47,7 @@
       </div>
     </b-form-group>
     
-    <b-button type="button" v-on:click="onSubmit()" variant="primary">Ajouter</b-button>
+    <b-button type="button" v-on:click="onSubmit()" variant="primary"><b-spinner ref="spinner" small type="grow"></b-spinner> Ajouter</b-button>
   </b-form>
 </template>
 <script>
@@ -69,6 +69,7 @@ export default {
   },
   methods: {
     onSubmit: function () {
+      this.$refs['spinner'].style.display = 'inline-block'
       const formData = new FormData();
       formData.append('url', this.modal.url)
       formData.append('width', this.modal.width)
@@ -93,6 +94,7 @@ export default {
           this.$emit('windowAdded', data)
           this.$emit('closeModal', true)
         }
+        this.$refs['spinner'].style.display = ''
       }).catch(function(err){
         alert(err)
       })
