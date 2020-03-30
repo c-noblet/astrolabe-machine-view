@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" onkeydown="'activite_detectee'=true" onmousemove="'activite_detectee+'=true">
     <router-view
       :editMode="editMode"
       :state="state"
@@ -41,13 +41,16 @@ export default {
       editMode: false,
       state: true,
       apiToken: '',
+      // On déclare et initialise les variables utilisée
+      activite_detectee: false,
+      intervalle: 10000,
       form: {
         username: '',
         password: ''
       }
     }
   },
-  mounted: function () {
+  mounted() {
     if(this.$route.fullPath.includes('/edit')){
       if(this.readCookie('apiToken') !== ''){
         this.editMode = true
@@ -56,6 +59,11 @@ export default {
       }else{
         this.$refs['loginModal'].show()
       }
+    }
+
+    // On lance la fonction testerActivite() pour la première fois, au chargement de la page
+    if (!this.$route.fullPath.includes('/edit') && !this.$route.fullPath.includes('veille')){ 
+      this.lancementBoucleVeille()
     }
   },
   methods: {
@@ -113,6 +121,47 @@ export default {
       }
       return '';
     },
+    lancementBoucleVeille: function() {
+    console.log('lancementBoucleVeille')
+
+      //setTimeout(function () { this.testerActivite(); }, this.intervalle)
+
+      //setTimeout(this.testerActivite(), this.intervalle)
+
+      //setTimeout(function () { testerActivite(); }, this.intervalle, this.testerActivite())
+
+      setTimeout(() => {
+        this.testerActivite()
+      }, this.intervalle)
+
+      setTimeout(() => {
+        console.log('10s')
+      }, this.intervalle)
+
+      /*setTimeout(function () {
+        console.log('10s')
+      }, this.intervalle)*/
+
+    },
+    // On crée la fonction qui teste toutes les x secondes l'activité du visiteur via activite_detectee
+    testerActivite: function() {
+
+      console.log(this.activite_detectee)
+      // On teste la variable activite_detectee
+      // Si une activité a été détectée [On réinitialise activite_detectee]
+      if(this.activite_detectee) {
+        this.activite_detectee = false
+      // On relance la fonction ce qui crée une boucle      
+      setTimeout(() => {
+        this.testerActivite()
+      }, this.intervalle)
+      }
+      // Si aucune activité n'a été détectée
+      else {
+        console.log('pas de mouvement')
+        this.$router.push('/veille')
+      }
+    }
   }
 }
 </script>
