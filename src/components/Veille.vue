@@ -24,11 +24,11 @@
 			@backgroundUpdated="reloadBackground($event)"
 			/>
 		</div>
-		<div ref="loader" class="loader">
+		<!--<div ref="loader" class="loader">
 			<div>
 				<b-spinner class="text-primary" style="width: 15rem; height: 15rem;" label="Large Spinner"></b-spinner>
 			</div>
-		</div>
+		</div>-->
 	</section>
 </template>
 <script>
