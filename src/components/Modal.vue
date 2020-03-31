@@ -1,5 +1,5 @@
 <template>
-  <b-modal ref="modal" id="modal" hide-footer>
+  <b-modal ref="modal" id="modal" hide-footer @hidden="closeModal">
     <b-nav v-if="navs" class="mb-3" tabs fill>
       <b-nav-item :active="choice1.active" :to="choice1.url">{{ choice1.name }}</b-nav-item>
       <b-nav-item :active="choice2.active" :to="choice2.url">{{ choice2.name }}</b-nav-item>
