@@ -64,7 +64,7 @@ export default {
       }
     }
     // On lance la fonction testerActivite() pour la première fois, au chargement de la page
-    if (this.$route.fullPath.includes('/home')){ 
+    if (this.$route.fullPath.includes('/home') && !this.$route.fullPath.includes('/edit')){ 
       this.lancementBoucleVeille()
     }
   },
