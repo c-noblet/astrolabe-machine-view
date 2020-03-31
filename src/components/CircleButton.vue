@@ -14,7 +14,7 @@
           <router-link v-b-modal.modal :to="{ path:'/edit/'+veilleUrl+'modal/edit-color', params: { color: bg}}"><span><font-awesome-icon icon="paint-roller"/></span></router-link>
         </button>
         <button class="sub-circle">
-          <router-link :to="'/edit/'+veilleUrl"><span><font-awesome-icon icon="sync-alt"/></span></router-link>
+          <router-link :to="'/edit/'+switchUrl"><span><font-awesome-icon icon="sync-alt"/></span></router-link>
         </button>
         <button class="sub-circle">
           <router-link v-b-modal.modal :to="{ path:'/edit/'+veilleUrl+'modal/user'}"><span><font-awesome-icon icon="user"/></span></router-link>
@@ -40,13 +40,16 @@ export default {
       },
       background: null,
       veilleUrl: '',
+      switchUrl: ''
     }
   },
   created: function () {
     if(this.$route.fullPath.includes('veille')){
-      this.veilleUrl = 'home'
+      this.veilleUrl = 'veille/',
+      this.switchUrl = 'home/'
     } else {
-      this.veilleUrl = 'veille'
+      this.veilleUrl = 'home/',
+      this.switchUrl = 'veille/'
     }
   },
   mounted () {

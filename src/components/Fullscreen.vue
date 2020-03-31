@@ -1,7 +1,7 @@
 <template>
   <div>
     <iframe :src="url" frameborder="0"></iframe>
-    <router-link class="btn btn-primary" to="/">Retour</router-link>
+    <router-link class="btn btn-primary" to="/home">Retour</router-link>
   </div>
 </template>
 <script>
