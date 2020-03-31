@@ -76,8 +76,8 @@ button {
 }
 .wrapper{
   position: absolute;
-  bottom: 5px;
-  right: 5px;
+  bottom: 25px;
+  right: 25px;
   width: 60px;
   height: 60px;
 }
