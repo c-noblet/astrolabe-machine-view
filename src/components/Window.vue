@@ -1,9 +1,9 @@
 <template>
   <div :ref="'window-'+window.id" class="window" :style="'width:'+window.width+'%;height:'+window.height+'%;left:'+window.posX+'%;top:'+window.posY+'%'">
     <div>
-      <iframe v-if="window.youtube" :onload="iframeloaded()" :ref="'iframe-'+window.id" :src="'https://www.youtube.com/embed/'+playlistUrl+window.url+autoplay"  frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
-      <iframe v-if="!window.youtube" :onload="iframeloaded()" :ref="'iframe-'+window.id" :src="window.url" frameborder="0"></iframe>
-      <router-link v-if="!window.youtube" class="fullscreen" :to="{ name: 'Fullscreen', params: { url: window.url}}"></router-link>
+      <iframe v-show="window.youtube" :ref="'iframe-'+window.id" :src="'https://www.youtube.com/embed/'+playlistUrl+window.url+autoplay"  frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+      <iframe v-show="!window.youtube" :ref="'iframe-'+window.id" :src="window.url" frameborder="0"></iframe>
+      <router-link v-show="!window.youtube" class="fullscreen" :to="{ name: 'Fullscreen', params: { url: window.url}}"></router-link>
       <router-link class="btn btn-warning" v-if="editMode" :to="{ name: 'EditWindow'+veilleUrl, params: { windowId: window.id.toString()}}" squared v-b-modal.modal>Modifier</router-link>
     </div>
   </div>
@@ -32,8 +32,8 @@ export default {
     }
   },
   methods:{
-    iframeloaded: function () {
-      this.$emit('iframeLoaded', this.window.id)
+    iframeloaded: function (id) {
+      this.$emit('iframeLoaded', id)
     }
   } 
 }
