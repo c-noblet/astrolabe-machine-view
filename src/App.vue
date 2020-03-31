@@ -1,6 +1,5 @@
 <template>
   <div id="app" 
-    ontouchstart=""
     v-on:click="activite_detectee=true" 
     v-on:mousemove="activite_detectee=true"
   >
@@ -53,7 +52,7 @@ export default {
       }
     }
   },
-  mounted() {
+   mounted: function () {
     if(this.$route.fullPath.includes('/edit')){
       if(this.readCookie('apiToken') !== ''){
         this.editMode = true
@@ -65,7 +64,7 @@ export default {
     }
 
     // On lance la fonction testerActivite() pour la première fois, au chargement de la page
-    if (!this.$route.fullPath.includes('/edit') && !this.$route.fullPath.includes('veille')){ 
+    if (this.$route.fullPath.includes('/home')){ 
       this.lancementBoucleVeille()
     }
   },
@@ -121,19 +120,18 @@ export default {
       return '';
     },
     lancementBoucleVeille: function() {
-      //console.log('lancementBoucleVeille')
+      console.log('lancementBoucleVeille')
       /*setTimeout(() => {
         console.log('10s')
       }, this.intervalle)*/
-      
+
       setTimeout(() => {
         this.testerActivite()
       }, this.intervalle)
-
     },
     // On teste toutes les x secondes l'activité du visiteur via activite_detectee
     testerActivite: function() {
-      //console.log('testerActivite')
+      console.log('testerActivite')
       
       // On teste la variable activite_detectee
       // Si une activité a été détectée [On réinitialise activite_detectee]
@@ -147,12 +145,12 @@ export default {
       }
       // Si aucune activité n'a été détectée
       else {
-        //console.log('pas de mouvement')
+        console.log('pas de mouvement')
         this.$router.push('/veille')
       }
     },
     relanceBoucleVeille: function() {
-      //console.log('relanceBoucleVeille')
+      console.log('relanceBoucleVeille')
 
       if(this.activite_detectee) {
         this.activite_detectee = false
