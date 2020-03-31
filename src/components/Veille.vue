@@ -24,11 +24,6 @@
 			@backgroundUpdated="reloadBackground($event)"
 			/>
 		</div>
-		<!--<div ref="loader" class="loader">
-			<div>
-				<b-spinner class="text-primary" style="width: 15rem; height: 15rem;" label="Large Spinner"></b-spinner>
-			</div>
-		</div>-->
 	</section>
 </template>
 <script>
@@ -72,8 +67,8 @@
 				this.windows.push(window)
 			},
 			reloadBackground: function (background) {
-				if(background.name){
-					this.background = "url('"+background.name+"')"
+				if(typeof background === 'string'){
+					document.location.reload();
 				}else{
 					this.background = background.color
 				}
