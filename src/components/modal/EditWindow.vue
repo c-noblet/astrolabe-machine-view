@@ -31,13 +31,13 @@
           id="edit-width"
           v-model="modal.width"
           required
-          placeholder="Horizontale"
+          placeholder="Entrer la longueur"
         ></b-form-input>
         <b-form-input
           id="edit-height"
           v-model="modal.height"
           required
-          placeholder="Verticale"
+          placeholder="Entrer la hauteur"
         ></b-form-input>
       </div>
     </b-form-group>
@@ -48,13 +48,13 @@
           id="edit-pos-x"
           v-model="modal.posX"
           required
-          placeholder="Position X"
+          placeholder="Entrer la longueur"
         ></b-form-input>
         <b-form-input
           id="edit-pos-y"
           v-model="modal.posY"
           required
-          placeholder="Position Y"
+          placeholder="Entrer la hauteur"
         ></b-form-input>
       </div>
     </b-form-group>

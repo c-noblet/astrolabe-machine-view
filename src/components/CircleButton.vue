@@ -78,8 +78,8 @@ button {
 }
 .wrapper{
   position: absolute;
-  bottom: 5vw;
-  right: 5vw;
+  bottom: 5px;
+  right: 5px;
   width: 60px;
   height: 60px;
 }
