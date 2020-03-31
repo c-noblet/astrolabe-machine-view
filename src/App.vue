@@ -1,5 +1,6 @@
 <template>
-  <div id="app" 
+  <div id="app"
+    ontouchstart="" 
     v-on:click="activite_detectee=true" 
     v-on:mousemove="activite_detectee=true"
   >
