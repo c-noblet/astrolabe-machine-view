@@ -24,11 +24,6 @@
         @backgroundUpdated="reloadBackground($event)"
       />
     </div>
-    <!--<div ref="loader" class="loader">
-      <div>
-        <b-spinner class="text-primary" style="width: 15rem; height: 15rem;" label="Large Spinner"></b-spinner>
-      </div>
-    </div>-->
   </section>
 </template>
 <script>
@@ -56,7 +51,6 @@ export default {
         loaded: Boolean
       },
       windows: [],
-      promiseArray: []
     }
   },
   mounted: async function () {
@@ -64,10 +58,6 @@ export default {
     this.getWindows()
   },
   methods: {
-    showApp: function () {
-      this.$refs['container'].style.display = 'block'
-      this.$refs['loader'].style.display = 'none'
-    },
     pushNewWindow(window){
       this.windows.push(window)
     },
@@ -88,12 +78,6 @@ export default {
       }).catch(() => {
         this.background = "url('"+options.API_BACKGROUND_URL+"');background-position:center;background-size:100% 100%;background-repeat:no-repeat;"
       })
-    },
-    iframesState: function (id) {
-      this.promiseArray.push(id)
-      if(this.promiseArray.length === this.windows.length){
-        Promise.all(this.promiseArray).then(this.showApp())
-      }
     },
     getWindows: function () {
       fetch(options.API_WINDOW_URL)

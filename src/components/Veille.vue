@@ -24,11 +24,6 @@
 			@backgroundUpdated="reloadBackground($event)"
 			/>
 		</div>
-		<!--<div ref="loader" class="loader">
-			<div>
-				<b-spinner class="text-primary" style="width: 15rem; height: 15rem;" label="Large Spinner"></b-spinner>
-			</div>
-		</div>-->
 	</section>
 </template>
 <script>
@@ -64,38 +59,27 @@
 			this.getWindows()
 		},
 		methods: {
-			showApp: function () {
-				this.$refs['container'].style.display = 'block'
-				this.$refs['loader'].style.display = 'none'
-			},
 			pushNewWindow(window){
 				this.windows.push(window)
 			},
 			reloadBackground: function (background) {
-				if(background.name){
-					this.background = "url('"+background.name+"')"
+				if(typeof background === 'string'){
+					document.location.reload();
 				}else{
 					this.background = background.color
 				}
 			},
 			getBackground: function () {
-				fetch(options.API_BACKGROUND_VEILLE_URL)
-				.then((results) => results.json())
-				.then(data => {
-					if(data.color){
-						this.background = data.color
-					}else{
-						this.background = "url('"+data.image+"')"
-					}
-				})
-			},
-			iframesState: function (id) {
-				let win = this.windows.find(x => x.id === id)
-				this.promiseArray.push(win.loaded)
-				if(this.promiseArray.length === this.windows.length){
-					Promise.all(this.promiseArray).then(this.showApp())
-				}
-			},
+      fetch(options.API_BACKGROUND_VEILLE_URL)
+      .then((results) => results.json())
+      .then(data => {
+        if(data.color){
+          this.background = data.color
+        }
+      }).catch(() => {
+        this.background = "url('"+options.API_BACKGROUND_URL+"');background-position:center;background-size:100% 100%;background-repeat:no-repeat;"
+      })
+    },
 			getWindows: function () {
 				fetch(options.API_VEILLE_URL,)
 				.then((results) => results.json())

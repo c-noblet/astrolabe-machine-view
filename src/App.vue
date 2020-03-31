@@ -53,7 +53,7 @@ export default {
       }
     }
   },
-   mounted: function () {
+  mounted: function () {
     if(this.$route.fullPath.includes('/edit')){
       if(this.readCookie('apiToken') !== ''){
         this.editMode = true
@@ -63,7 +63,6 @@ export default {
         this.$refs['loginModal'].show()
       }
     }
-
     // On lance la fonction testerActivite() pour la première fois, au chargement de la page
     if (this.$route.fullPath.includes('/home')){ 
       this.lancementBoucleVeille()
@@ -125,7 +124,6 @@ export default {
       /*setTimeout(() => {
         console.log('10s')
       }, this.intervalle)*/
-
       setTimeout(() => {
         this.testerActivite()
       }, this.intervalle)
