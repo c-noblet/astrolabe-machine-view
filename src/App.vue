@@ -53,7 +53,7 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted: function () {
     if(this.$route.fullPath.includes('/edit')){
       if(this.readCookie('apiToken') !== ''){
         this.editMode = true
@@ -63,7 +63,6 @@ export default {
         this.$refs['loginModal'].show()
       }
     }
-
     // On lance la fonction testerActivite() pour la première fois, au chargement de la page
     if (!this.$route.fullPath.includes('/edit') && !this.$route.fullPath.includes('veille')){ 
       this.lancementBoucleVeille()
@@ -122,9 +121,6 @@ export default {
     },
     lancementBoucleVeille: function() {
       //console.log('lancementBoucleVeille')
-      /*setTimeout(() => {
-        console.log('10s')
-      }, this.intervalle)*/
       
       setTimeout(() => {
         this.testerActivite()
