@@ -41,7 +41,7 @@ export default {
       if(this.$route.fullPath.includes('veille')){
         this.$router.push('/edit/veille');
       }else{
-        this.$router.push('/edit/');
+        this.$router.push('/edit/home');
       }
       
       this.$refs['modal'].hide()

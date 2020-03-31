@@ -16,31 +16,31 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/',
+      path: '/home',
       props: true,
       name: 'Home',
       component: Home,
     },
     {
-      path: '/fullscreen/',
+      path: '/fullscreen',
       props: true,
       name: 'Fullscreen',
       component: Fullscreen
     },
     {
-      path: '/veille/',
+      path: '/veille',
       props: true,
       name: 'Veille',
       component: Veille
     },
     {
-      path: '/edit/',
+      path: '/edit/home',
       props: true,
       name: 'EditHome',
       component: Home,
       children: [
         {
-          path: '/edit/modal/edit-picture/',
+          path: '/edit/modal/edit-picture',
           props: true,
           name: 'EditPicture',
           component: EditPicture
@@ -78,13 +78,13 @@ export default new Router({
       ]
     },
     {
-      path: '/edit/veille/',
+      path: '/edit/veille',
       props: true,
       name: 'EditVeille',
       component: Veille,
       children: [
         {
-          path: '/edit/veille/modal/edit-picture/',
+          path: '/edit/veille/modal/edit-picture',
           props: true,
           name: 'EditPictureVeille',
           component: EditPicture
@@ -110,11 +110,11 @@ export default new Router({
       ]
     },
     {
-      path: '/edit/fullscreen/',
+      path: '/edit/fullscreen',
       props: true,
       name: 'EditFullscreen',
       component: Fullscreen
-    },
+    }
   ],
   scrollBehavior () {
     return { x: 0, y: 0 }
