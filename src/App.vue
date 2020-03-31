@@ -1,5 +1,9 @@
 <template>
-  <div id="app" ontouchstart="">
+  <div id="app" 
+    ontouchstart=""
+    v-on:click="activite_detectee=true" 
+    v-on:mousemove="activite_detectee=true"
+  >
     <router-view
       :editMode="editMode"
       :state="state"
@@ -41,13 +45,15 @@ export default {
       editMode: false,
       state: true,
       apiToken: '',
+      activite_detectee: false,
+      intervalle: 10000,
       form: {
         username: '',
         password: ''
       }
     }
   },
-  mounted: function () {
+  mounted() {
     if(this.$route.fullPath.includes('/edit')){
       if(this.readCookie('apiToken') !== ''){
         this.editMode = true
@@ -56,6 +62,11 @@ export default {
       }else{
         this.$refs['loginModal'].show()
       }
+    }
+
+    // On lance la fonction testerActivite() pour la première fois, au chargement de la page
+    if (!this.$route.fullPath.includes('/edit') && !this.$route.fullPath.includes('veille')){ 
+      this.lancementBoucleVeille()
     }
   },
   methods: {
@@ -109,6 +120,53 @@ export default {
       }
       return '';
     },
+    lancementBoucleVeille: function() {
+      //console.log('lancementBoucleVeille')
+      /*setTimeout(() => {
+        console.log('10s')
+      }, this.intervalle)*/
+      
+      setTimeout(() => {
+        this.testerActivite()
+      }, this.intervalle)
+
+    },
+    // On teste toutes les x secondes l'activité du visiteur via activite_detectee
+    testerActivite: function() {
+      //console.log('testerActivite')
+      
+      // On teste la variable activite_detectee
+      // Si une activité a été détectée [On réinitialise activite_detectee]
+      if(this.activite_detectee) {
+        this.activite_detectee = false
+
+        // On relance la boucle au bout de 5s
+        setTimeout(() => {
+          this.relanceBoucleVeille()
+        }, 5000)
+      }
+      // Si aucune activité n'a été détectée
+      else {
+        //console.log('pas de mouvement')
+        this.$router.push('/veille')
+      }
+    },
+    relanceBoucleVeille: function() {
+      //console.log('relanceBoucleVeille')
+
+      if(this.activite_detectee) {
+        this.activite_detectee = false
+
+        // On boucle toutes les 5s pour voir la detection du dernier evenement
+        setTimeout(() => {
+          this.relanceBoucleVeille()
+        }, 5000)
+      }
+      else {
+        // on relance la boucle 
+        this.lancementBoucleVeille()
+      }
+    }
   }
 }
 </script>
