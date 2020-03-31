@@ -31,13 +31,13 @@
           id="edit-width"
           v-model="modal.width"
           required
-          placeholder="Entrer la longueur"
+          placeholder="Horizontale"
         ></b-form-input>
         <b-form-input
           id="edit-height"
           v-model="modal.height"
           required
-          placeholder="Entrer la hauteur"
+          placeholder="Verticale"
         ></b-form-input>
       </div>
     </b-form-group>
@@ -48,13 +48,13 @@
           id="edit-pos-x"
           v-model="modal.posX"
           required
-          placeholder="Entrer la longueur"
+          placeholder="Position X"
         ></b-form-input>
         <b-form-input
           id="edit-pos-y"
           v-model="modal.posY"
           required
-          placeholder="Entrer la hauteur"
+          placeholder="Position Y"
         ></b-form-input>
       </div>
     </b-form-group>
@@ -80,6 +80,8 @@ export default {
         height: '',
         posX: '',
         posY: '',
+        youtube: false,
+        playlist: false
       }
     }
   },
@@ -99,8 +101,8 @@ export default {
         posX: this.modal.posX.toString(),
         posY: this.modal.posY.toString(),
         youtube: this.modal.youtube.toString(),
-        playlist: this.modal.playlist.toString(),
-        veille: 'false'
+        playlist: this.modal.veille.toString(),
+        veille: this.$route.fullPath.includes('veille').toString()
       });
       fetch(options.API_WINDOW_URL+this.modal.id, {
         method: 'PUT',

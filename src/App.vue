@@ -83,12 +83,12 @@ export default {
         })
         .then((results) => results.json())
         .then(data => {
+          console.log(data)
           if(typeof data.erreur !== 'undefined'){
             alert(data.erreur)
           }else{
             this.apiToken = data.token.toString()
             this.writeCookie('apiToken', this.apiToken, 7)
-            console.log('fetch',this.apiToken)
             this.$refs['loginModal'].hide()
             document.location.reload();
           }

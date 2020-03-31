@@ -9,7 +9,7 @@
         v-model="modal.url"
         type="text"
         required
-        placeholder="Entrer l'URL"
+        placeholder="URL"
       ></b-form-input>
     </b-form-group>
 
@@ -19,13 +19,13 @@
           id="add-width"
           v-model="modal.width"
           required
-          placeholder="Entrer la longueur"
+          placeholder="Horizontale"
         ></b-form-input>
         <b-form-input
           id="add-height"
           v-model="modal.height"
           required
-          placeholder="Entrer la hauteur"
+          placeholder="Verticale"
         ></b-form-input>
       </div>
     </b-form-group>
@@ -36,13 +36,13 @@
           id="add-pos-x"
           v-model="modal.posX"
           required
-          placeholder="Entrer la longueur"
+          placeholder="Position X"
         ></b-form-input>
         <b-form-input
           id="add-pos-y"
           v-model="modal.posY"
           required
-          placeholder="Entrer la hauteur"
+          placeholder="Position Y"
         ></b-form-input>
       </div>
     </b-form-group>
@@ -75,9 +75,9 @@ export default {
       formData.append('height', this.modal.height)
       formData.append('posX', this.modal.posX)
       formData.append('posY', this.modal.posY)
-      formData.append('youtube', false)
-      formData.append('playlist', false)
-      formData.append('veille', false)
+      formData.append('youtube', 'false')
+      formData.append('playlist', 'false')
+      formData.append('veille', this.$route.fullPath.includes('veille').toString())
       fetch(options.API_WINDOW_URL, {
         method: 'POST',
         headers: {
