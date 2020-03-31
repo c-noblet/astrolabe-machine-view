@@ -59,8 +59,8 @@
       </div>
     </b-form-group>
 
-    <b-button type="button" class="mr-3" v-on:click="onSubmit()" variant="primary">Sauvegarder</b-button>
-    <b-button type="button" v-on:click="deleteWindow()" variant="danger">Supprimer</b-button>
+    <b-button type="button" class="mr-3" v-on:click="onSubmit()" variant="primary"><b-spinner ref="spinner" small type="grow"></b-spinner> Sauvegarder</b-button>
+    <b-button type="button" v-on:click="deleteWindow()" variant="danger"><b-spinner ref="spinner" small type="grow"></b-spinner>  Supprimer</b-button>
   </b-form>
 </template>
 <script>
