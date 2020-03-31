@@ -72,7 +72,7 @@ export default {
       this.windows.push(window)
     },
     reloadBackground: function (background) {
-      if(background.includes('http://')){
+      if(typeof background === 'string'){
         document.location.reload();
       }else{
         this.background = background.color
