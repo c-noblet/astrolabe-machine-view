@@ -1,10 +1,10 @@
 <template>
   <div :ref="'window-'+window.id" class="window" :style="'width:'+window.width+'%;height:'+window.height+'%;left:'+window.posX+'%;top:'+window.posY+'%'">
     <div>
-      <iframe v-show="window.youtube" :ref="'iframe-'+window.id" :src="'https://www.youtube.com/embed/'+playlistUrl+window.url+autoplay"  frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
-      <iframe v-show="!window.youtube" :ref="'iframe-'+window.id" :src="window.url" frameborder="0"></iframe>
+      <iframe v-show="window.youtube" :src="'https://www.youtube.com/embed/'+playlistUrl+window.url+autoplay"  frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+      <iframe v-show="!window.youtube" :src="window.url" frameborder="0"></iframe>
       <router-link v-show="!window.youtube" class="fullscreen" :to="{ name: 'Fullscreen', params: { url: window.url}}"></router-link>
-      <router-link class="btn btn-warning" v-if="editMode" :to="{ name: 'EditWindow'+veilleUrl, params: { windowId: window.id.toString()}}" squared v-b-modal.modal>Modifier</router-link>
+      <router-link class="btn btn-warning" v-show="editMode" :to="{ name: 'EditWindow', params: { windowId: window.id.toString()}}" squared v-b-modal.modal>Modifier</router-link>
     </div>
   </div>
 </template>
@@ -30,12 +30,7 @@ export default {
     if(this.$route.fullPath.includes('veille')){
       this.veilleUrl = 'Veille'
     }
-  },
-  methods:{
-    iframeloaded: function (id) {
-      this.$emit('iframeLoaded', id)
-    }
-  } 
+  }
 }
 </script>
 <style lang="scss" scoped>
