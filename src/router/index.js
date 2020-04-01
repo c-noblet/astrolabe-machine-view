@@ -16,6 +16,14 @@ export default new Router({
   mode: 'history',
   routes: [
     {
+      path: '/',
+      redirect: '/home'
+    },
+    {
+      path: '/edit',
+      redirect: '/edit/home'
+    },
+    {
       path: '/home',
       props: true,
       name: 'Home',
