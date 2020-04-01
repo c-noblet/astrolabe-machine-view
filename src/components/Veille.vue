@@ -1,5 +1,5 @@
 <template>
-	<section :style="'background:'+background">
+	<section :style="'background:'+background" v-on:click="activite">
 		<div ref="container" class="screen">
 			<ul>
 				<li v-for="(item) in windows" :key="item.id">
@@ -70,16 +70,16 @@
 				}
 			},
 			getBackground: function () {
-      fetch(options.API_BACKGROUND_VEILLE_URL)
-      .then((results) => results.json())
-      .then(data => {
-        if(data.color){
-          this.background = data.color
-        }
-      }).catch(() => {
-        this.background = "url('"+options.API_BACKGROUND_URL+"');background-position:center;background-size:100% 100%;background-repeat:no-repeat;"
-      })
-    },
+				fetch(options.API_BACKGROUND_VEILLE_URL)
+				.then((results) => results.json())
+				.then(data => {
+					if(data.color){
+						this.background = data.color
+					}
+				}).catch(() => {
+					this.background = "url('"+options.API_BACKGROUND_URL+"');background-position:center;background-size:100% 100%;background-repeat:no-repeat;"
+				})
+			},
 			getWindows: function () {
 				fetch(options.API_VEILLE_URL,)
 				.then((results) => results.json())
@@ -95,6 +95,11 @@
 				}).catch(function(err){
 					alert(err)
 				})
+			},
+			activite: function () {
+				if (this.$route.fullPath.includes('/veille') && !this.$route.fullPath.includes('/edit')){ 
+					document.location.href = "/home"
+				}
 			},
 			calculPosAutreWindows: function(laWindow) {
 				for (let index in this.windows ){
