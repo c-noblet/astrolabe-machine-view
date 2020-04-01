@@ -21,17 +21,23 @@
         id="newPassword"
         class="mb-2"
         v-model="password1"
+        @input="comparePassword()"
         type="password"
         required
         placeholder=""
       ></b-form-input>
       <b-form-input
         v-model="password2"
+        @input="comparePassword()"
         type="password"
         required
         placeholder=""
       ></b-form-input>
     </b-form-group>
+
+    <b-alert v-show="warning" variant="warning" show dismissible>
+      Les champs de nouveau mot de passe ne sont pas identiques.
+    </b-alert>
 
     <b-button type="button" v-on:click="onSubmit()" variant="primary"><b-spinner ref="spinner" small type="grow"></b-spinner> Sauvergarder</b-button>
   </b-form>
@@ -50,6 +56,13 @@ export default {
     }
   },
   methods: {
+    comparePassword: function () {
+      if(this.password1 !== this.password2){
+        this.warning = true
+      }else{
+        this.warning = false
+      }
+    },
     onSubmit: function () {
       if(this.password1 !== this.password2){
         this.warning = true
