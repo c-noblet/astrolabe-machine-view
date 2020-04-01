@@ -17,7 +17,7 @@
           <router-link :to="'/edit/'+switchUrl"><span><font-awesome-icon icon="sync-alt"/></span></router-link>
         </button>
         <button class="sub-circle">
-          <router-link v-b-modal.modal :to="{ path:'/edit/'+veilleUrl+'modal/edit-veille'}"><span class="font-weight-bold">zZ</span></router-link>
+          <router-link v-b-modal.modal :to="{ path:'/edit/'+veilleUrl+'modal/edit-tempsV'}"><span class="font-weight-bold">zZ</span></router-link>
         </button>
         <button class="sub-circle">
           <router-link v-b-modal.modal :to="{ path:'/edit/'+veilleUrl+'modal/user'}"><span><font-awesome-icon icon="user"/></span></router-link>

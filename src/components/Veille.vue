@@ -98,6 +98,7 @@
 			},
 			activite: function () {
 				if (this.$route.fullPath.includes('/veille') && !this.$route.fullPath.includes('/edit')){ 
+					//on ne fait pas un push normal car la function lancementBoucleVeille() ne sera pas appeler
 					document.location.href = "/home"
 				}
 			},
