@@ -29,10 +29,10 @@
 		</b-form-group>
 
 		<b-button type="button" class="mr-3" v-on:click="onSubmit()" variant="primary">
-			<b-spinner ref="spinner" small type="grow"></b-spinner>Sauvegarder
+			<b-spinner ref="spinner1" small type="grow"></b-spinner>Sauvegarder
 		</b-button>
 		<b-button type="button" v-on:click="deleteWindow()" variant="danger">
-			<b-spinner ref="spinner" small type="grow"></b-spinner>Supprimer
+			<b-spinner ref="spinner2" small type="grow"></b-spinner>Supprimer
 		</b-button>
 	</b-form>
 </template>
@@ -70,7 +70,7 @@ export default {
 		// Lors du form submit
 		onSubmit: function() {
 			// on affiche le loader dans le bouton
-			this.$refs["spinner"].style.display = "inline-block";
+			this.$refs["spinner1"].style.display = "inline-block";
 
 			// On créé le body de la requête
 			const formData = JSON.stringify({
@@ -102,7 +102,7 @@ export default {
 						this.$emit("closeModal", true);
 					}
 					// On enlève le loader
-					this.$refs["spinner"].style.display = "";
+					this.$refs["spinner1"].style.display = "";
 				})
 				.catch(function(err) {
 					alert(err);
@@ -111,7 +111,7 @@ export default {
 		//lors de la suppression de la fenêtre
 		deleteWindow: function() {
 			// on affiche le loader dans le bouton
-			this.$refs["spinner"].style.display = "inline-block";
+			this.$refs["spinner2"].style.display = "inline-block";
 
 			// On fait la requête
 			fetch(options.API_WINDOW_URL + this.modal.id, {
@@ -136,7 +136,7 @@ export default {
 						this.$emit("closeModal", true);
 					}
 					// On enlève le loader
-					this.$refs["spinner"].style.display = "";
+					this.$refs["spinner2"].style.display = "";
 				})
 				.catch(function(err) {
 					alert(err);
