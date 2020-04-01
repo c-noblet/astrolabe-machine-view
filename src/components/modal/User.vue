@@ -1,6 +1,6 @@
 <template>
   <b-form>
-        <b-form-group
+    <b-form-group
       label="Saisissez votre mot de passe:"
       label-for="oldPassword"
     >
