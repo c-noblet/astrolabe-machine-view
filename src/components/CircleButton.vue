@@ -17,6 +17,9 @@
           <router-link :to="'/edit/'+switchUrl"><span><font-awesome-icon icon="sync-alt"/></span></router-link>
         </button>
         <button class="sub-circle">
+          <router-link v-b-modal.modal :to="{ path:'/edit/'+veilleUrl+'modal/edit-veille'}"><span class="font-weight-bold">zZ</span></router-link>
+        </button>
+        <button class="sub-circle">
           <router-link v-b-modal.modal :to="{ path:'/edit/'+veilleUrl+'modal/user'}"><span><font-awesome-icon icon="user"/></span></router-link>
         </button>
       </div>
@@ -131,6 +134,7 @@ button {
     width: 100%;
     height: 100%;
     transition: 200ms;
+    text-decoration: none;
     & span {
       display: table-cell;
       vertical-align: middle;
@@ -188,6 +192,11 @@ $translateValue: 50;
     transform: translate(-$translateValue * 4 + px, 0px) scale(1);
     opacity: 1;
     transition: $transition * 4 + s;
+  }
+  &:checked ~ .subs button:nth-of-type(5){
+    transform: translate(-$translateValue * 5 + px, 0px) scale(1);
+    opacity: 1;
+    transition: $transition * 5 + s;
   }
 }
 </style>
