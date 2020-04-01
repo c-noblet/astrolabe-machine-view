@@ -8,6 +8,7 @@ import EditPicture from '../components/modal/EditPicture.vue'
 import AddWindow from '../components/modal/AddWindow.vue'
 import YoutubeWindow from '../components/modal/YoutubeWindow.vue'
 import EditWindow from '../components/modal/EditWindow.vue'
+import EditVeille from '../components/modal/EditVeille.vue'
 import User from '../components/modal/User.vue'
 Vue.use(Router)
 
@@ -78,6 +79,12 @@ export default new Router({
           component: EditWindow
         },
         {
+          path: '/edit/home/modal/edit-veille',
+          props: true,
+          name: 'EditVeille',
+          component: EditVeille
+        },
+        {
           path: '/edit/home/modal/user',
           props: true,
           name: 'User',
@@ -114,6 +121,18 @@ export default new Router({
           props: true,
           name: 'EditWindowVeille',
           component: EditWindow
+        },
+        {
+          path: '/edit/veille/modal/edit-veille',
+          props: true,
+          name: 'EditVeille',
+          component: EditVeille
+        },
+        {
+          path: '/edit/veille/modal/user',
+          props: true,
+          name: 'User',
+          component: User
         }
       ]
     },
