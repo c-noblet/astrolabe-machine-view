@@ -3,147 +3,161 @@
 		<div ref="container" class="screen">
 			<ul>
 				<li v-for="(item) in windows" :key="item.id">
-					<Window 
-					:window="item"
-					:editMode="editMode"
-					@iframeLoaded="iframesState($event)"
-					/>
+					<Window :window="item" :editMode="editMode" @iframeLoaded="iframesState($event)" />
 				</li>
 			</ul>
-			<CircleButton 
-			v-if="editMode"
-			:bg="background"
-			:editMode="editMode"
-			@openModal="modalName = $event"
+			<CircleButton
+				v-if="editMode"
+				:bg="background"
+				:editMode="editMode"
+				@openModal="modalName = $event"
 			/>
-			<Modal 
-			:apiToken="apiToken"
-			:windows="windows"
-			:bg="background"
-			@windowAdded="pushNewWindow($event)"
-			@backgroundUpdated="reloadBackground($event)"
+			<Modal
+				:apiToken="apiToken"
+				:windows="windows"
+				:bg="background"
+				@windowAdded="pushNewWindow($event)"
+				@backgroundUpdated="reloadBackground($event)"
 			/>
 		</div>
 	</section>
 </template>
 <script>
-	import options from '../../options.env'
-	import Window from './Window'
-	import CircleButton from './CircleButton'
-	import Modal from './Modal'
-	export default {
-		name: 'Veille',
-		props: {
-			editMode: Boolean,
-			state: Boolean,
-			apiToken: String
+import options from "../../options.env";
+import Window from "./Window";
+import CircleButton from "./CircleButton";
+import Modal from "./Modal";
+export default {
+	name: "Veille",
+	props: {
+		editMode: Boolean,
+		state: Boolean,
+		apiToken: String
+	},
+	data() {
+		return {
+			background: "",
+			modal: {
+				id: Number,
+				url: String,
+				width: String,
+				height: String,
+				posX: String,
+				posY: String,
+				loaded: Boolean
+			},
+			windows: [],
+			promiseArray: []
+		};
+	},
+	// Lors de la création du DOM
+	mounted: function() {
+		// On récupère le fond d'écran
+		this.getBackground();
+		// On récupère les fenêtres
+		this.getWindows();
+	},
+	methods: {
+		// Ajoute une fenêtre dans la listes locales de fenêtres
+		pushNewWindow(window) {
+			this.windows.push(window);
 		},
-		data () {
-			return {
-				background: '',
-				modal: {
-					id: Number,
-					url: String,
-					width: String,
-					height: String,
-					posX: String,
-					posY: String,
-					loaded: Boolean
-				},
-				windows: [],
-				promiseArray: []
+		// Recharge le fond d'écran
+		reloadBackground: function(background) {
+			if (typeof background === "string") {
+				document.location.reload();
+			} else {
+				this.background = background.color;
 			}
 		},
-		mounted: async function () {
-			await this.getBackground()
-			this.getWindows()
+		// Récupère le fond d'écran
+		getBackground: function() {
+			fetch(options.API_BACKGROUND_VEILLE_URL)
+				.then(results => results.json())
+				.then(data => {
+					if (data.color) {
+						this.background = data.color;
+					}
+				})
+				.catch(() => {
+					this.background =
+						"url('" +
+						options.API_BACKGROUND_URL +
+						"');background-position:center;background-size:100% 100%;background-repeat:no-repeat;";
+				});
 		},
-		methods: {
-			pushNewWindow(window){
-				this.windows.push(window)
-			},
-			reloadBackground: function (background) {
-				if(typeof background === 'string'){
-					document.location.reload();
-				}else{
-					this.background = background.color
-				}
-			},
-			getBackground: function () {
-				fetch(options.API_BACKGROUND_VEILLE_URL)
-				.then((results) => results.json())
+		// Récupère les fenêtres
+		getWindows: function() {
+			fetch(options.API_VEILLE_URL)
+				.then(results => results.json())
 				.then(data => {
-					if(data.color){
-						this.background = data.color
-					}
-				}).catch(() => {
-					this.background = "url('"+options.API_BACKGROUND_URL+"');background-position:center;background-size:100% 100%;background-repeat:no-repeat;"
-				})
-			},
-			getWindows: function () {
-				fetch(options.API_VEILLE_URL,)
-				.then((results) => results.json())
-				.then(data => {
-					if(typeof data.erreur !== 'undefined'){
-						alert(data.erreur)
-					}else{
-						this.windows = data
+					if (typeof data.erreur !== "undefined") {
+						alert(data.erreur);
+					} else {
+						this.windows = data;
 						for (let i = 0; i < this.windows.length; i++) {
-							this.windows[i].loaded = false
+							this.windows[i].loaded = false;
 						}
 					}
-				}).catch(function(err){
-					alert(err)
 				})
-			},
-			activite: function () {
-				if (this.$route.fullPath.includes('/veille') && !this.$route.fullPath.includes('/edit')){ 
-					document.location.href = "/home"
-				}
-			},
-			calculPosAutreWindows: function(laWindow) {
-				for (let index in this.windows ){
+				.catch(function(err) {
+					alert(err);
+				});
+		},
+		activite: function() {
+			if (
+				this.$route.fullPath.includes("/veille") &&
+				!this.$route.fullPath.includes("/edit")
+			) {
+				document.location.href = "/home";
+			}
+		},
+		calculPosAutreWindows: function(laWindow) {
+			for (let index in this.windows) {
+				if (this.windows[index] !== laWindow) {
+					let laWindowTop = laWindow.posY;
+					let laWindowBottom = laWindow.posY + laWindow.height;
+					let itemTop = this.windows[index].posY;
+					let itemBottom =
+						this.windows[index].posY + this.windows[index].height;
+					let orientationH = null;
 
-					if ( this.windows[index] !== laWindow) {
+					// Définie le côté de la window non modifié à adapter
+					if (laWindow.posX < this.windows[index].posX) {
+						orientationH = "left";
+					} else {
+						orientationH = "right";
+					}
 
-						let laWindowTop = laWindow.posY
-						let laWindowBottom = laWindow.posY + laWindow.height
-						let itemTop = this.windows[index].posY
-						let itemBottom = this.windows[index].posY + this.windows[index].height
-						let orientationH = null 
-
-						// Définie le côté de la window non modifié à adapter
-						if(laWindow.posX < this.windows[index].posX){
-							orientationH = 'left'
-						}else{
-							orientationH = 'right'
-						}
-
-						// Si la fenêtre modifié passe par sa droite sur une fenêtre non modifié
-						if((this.windows[index].posX + this.windows[index].width) >= laWindow.posX){
-							// Si les traits horizontaux des fenêtres sont en conflits sur la même ligne
-							if(itemTop < laWindowBottom && itemBottom > laWindowTop){
-								// Alors on modifie la taille la fenêtre non modifié
-								this.windows[index].width = 100 - laWindow.width
-								// Si la fenêtre non modifié est à gauche
-								if(orientationH === 'left'){
-									// On redéfinie sa position
-									this.windows[index].posX = laWindow.width + laWindow.posX
-								}else{
-									// On redéfinie sa position sa position afin de s'aligner avec la fenêtre modifié
-									laWindow.posX = 100 - laWindow.width
-								}
+					// Si la fenêtre modifié passe par sa droite sur une fenêtre non modifié
+					if (
+						this.windows[index].posX + this.windows[index].width >=
+						laWindow.posX
+					) {
+						// Si les traits horizontaux des fenêtres sont en conflits sur la même ligne
+						if (itemTop < laWindowBottom && itemBottom > laWindowTop) {
+							// Alors on modifie la taille la fenêtre non modifié
+							this.windows[index].width = 100 - laWindow.width;
+							// Si la fenêtre non modifié est à gauche
+							if (orientationH === "left") {
+								// On redéfinie sa position
+								this.windows[index].posX = laWindow.width + laWindow.posX;
+							} else {
+								// On redéfinie sa position sa position afin de s'aligner avec la fenêtre modifié
+								laWindow.posX = 100 - laWindow.width;
 							}
 						}
 					}
 				}
 			}
-		},
-		components: {
-			Window, CircleButton, Modal
 		}
+	},
+	components: {
+		Window,
+		CircleButton,
+		Modal
 	}
+};
 </script>
 <style lang="scss">
-
 </style>
