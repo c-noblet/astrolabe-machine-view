@@ -7,6 +7,7 @@
     <router-view 
       :apiToken="apiToken"
       :windows="windows"
+      :tempsVeille="tempsVeille"
       :color="bg"
       @closeModal="closeModal()"
       @windowAdded="windowAdded($event)"
@@ -19,7 +20,8 @@ export default {
   props:{
     apiToken: String,
     windows: Array,
-    bg: String
+    bg: String,
+    tempsVeille: Array
   },
   data() {
     return {

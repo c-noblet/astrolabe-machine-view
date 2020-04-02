@@ -20,6 +20,7 @@
         :apiToken="apiToken"
         :windows="windows"
         :bg="background"
+        :tempsVeille="tempsVeille"
         @windowAdded="pushNewWindow($event)"
         @backgroundUpdated="reloadBackground($event)"
       />
@@ -51,11 +52,13 @@ export default {
         loaded: Boolean
       },
       windows: [],
+      tempsVeille: []
     }
   },
   mounted: async function () {
-    await this.getBackground()
-    this.getWindows()
+    await this.getBackground();
+    await this.getTempsVeille();
+    this.getWindows();
   },
   methods: {
     pushNewWindow(window){
@@ -94,6 +97,20 @@ export default {
         alert(err)
       })
     },
+    getTempsVeille: function() {
+			fetch(options.API_TEMPS_VEILLE)
+				.then(results => results.json())
+				.then(data => {
+					if (typeof data.error !== "undefined") {
+						alert(data.error);
+					} else {
+						this.tempsVeille = data
+					}
+				})
+				.catch(function(err) {
+					alert(err);
+				});
+		},
     calculPosAutreWindows: function(laWindow) {
       for (let index in this.windows ){
         
