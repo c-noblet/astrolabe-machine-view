@@ -34,10 +34,7 @@ export default {
 			// On créé le body de la requête
 			const formData = new FormData();
 			formData.append("image", this.background);
-			formData.append(
-				"veille",
-				this.$route.fullPath.includes("veille").toString()
-			);
+			formData.append("veille", this.$route.fullPath.includes("veille").toString());
 
 			// On fait la requête
 			fetch(options.API_BACKGROUND_URL, {

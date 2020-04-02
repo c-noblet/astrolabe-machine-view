@@ -71,10 +71,7 @@ export default {
       formData.append("posY", this.modal.posY);
       formData.append("youtube", "false");
       formData.append("playlist", "false");
-      formData.append(
-        "veille",
-        this.$route.fullPath.includes("veille").toString()
-      );
+      formData.append("veille", this.$route.fullPath.includes("veille").toString());
 
       // On fait la requête
       fetch(options.API_WINDOW_URL, {
