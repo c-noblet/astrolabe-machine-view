@@ -22,7 +22,7 @@
 			<router-link
 				class="btn btn-warning"
 				v-show="editMode"
-				:to="{ name: 'EditWindow', params: { windowId: window.id.toString()}}"
+				:to="{ path:'/edit/'+veilleUrl+'modal/edit-window', params: { windowId: window.id.toString()}}"
 				squared
 				v-b-modal.modal
 			>Modifier</router-link>
@@ -53,8 +53,11 @@ export default {
 		}
 		if (this.$route.fullPath.includes("veille")) {
       // Si on est mode veille on change les liens
-			this.veilleUrl = "Veille";
-		}
+			this.veilleUrl = "veille/";
+    } else {
+      // Si on est en mode home
+      (this.veilleUrl = "home/");
+    }
 	}
 };
 </script>
