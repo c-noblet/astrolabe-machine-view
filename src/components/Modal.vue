@@ -12,6 +12,7 @@
       @closeModal="closeModal()"
       @windowAdded="windowAdded($event)"
       @backgroundUpdated="backgroundUpdated($event)"
+      @tempsVeilleUpdated="tempsVeilleUpdated($event)"
     ></router-view>
   </b-modal>
 </template>
@@ -52,8 +53,10 @@ export default {
       this.$emit('windowAdded', window)
     },
     backgroundUpdated: function (background) {
-      console.log(background)
       this.$emit('backgroundUpdated', background)
+    },
+    tempsVeilleUpdated: function (temps) {
+      this.$emit("tempsVeilleUpdated", temps);
     }
   },
   beforeUpdate: function () {
