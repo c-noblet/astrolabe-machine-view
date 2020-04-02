@@ -51,6 +51,7 @@ export default {
 						alert(data.error);
 					} else {
 						// Sinon on déclenche les évenements suite à la reception
+						this.$emit("closeModal", true);
 						this.$emit("backgroundUpdated", options.API_BACKGROUND_URL);
 					}
 					// On enlève le loader
