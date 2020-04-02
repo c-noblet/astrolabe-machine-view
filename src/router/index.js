@@ -117,6 +117,12 @@ export default new Router({
           component: AddWindow
         },
         {
+          path: '/edit/veille/modal/add-yt-window',
+          props: true,
+          name: 'YoutubeWindow',
+          component: YoutubeWindow
+        },
+        {
           path: '/edit/veille/modal/edit-window/:id',
           props: true,
           name: 'EditWindowVeille',
