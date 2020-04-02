@@ -16,7 +16,8 @@
 			<router-link
 				v-show="!window.youtube"
 				class="fullscreen"
-				:to="{ name: 'Fullscreen', params: { url: window.url}}"
+        :editMode="editMode"
+				:to="{ name: 'Fullscreen', params: { url: window.url, typeWindow: window.veille }}"
 			></router-link>
 			<router-link
 				class="btn btn-warning"
@@ -33,7 +34,8 @@ export default {
 	name: "Window",
 	props: {
 		window: Object,
-		editMode: Boolean
+		editMode: Boolean,
+    typeWindow: Boolean
 	},
 	data() {
 		return {
