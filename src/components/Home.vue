@@ -74,8 +74,8 @@ export default {
       .then(data => {
         if(data.color){
           this.background = data.color
-          console.log(data.color)
-          console.log(data)
+          //console.log(data.color)
+          //console.log(data)
         }
       }).catch(() => {
         this.background = "url('"+options.API_BACKGROUND_URL+"');background-position:center;background-size:100% 100%;background-repeat:no-repeat;"
