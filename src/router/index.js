@@ -79,7 +79,7 @@ export default new Router({
           component: EditWindow
         },
         {
-          path: '/edit/home/modal/edit-veille',
+          path: '/edit/home/modal/edit-tempsV',
           props: true,
           name: 'EditVeille',
           component: EditVeille
@@ -123,7 +123,7 @@ export default new Router({
           component: EditWindow
         },
         {
-          path: '/edit/veille/modal/edit-veille',
+          path: '/edit/veille/modal/edit-tempsV',
           props: true,
           name: 'EditVeille',
           component: EditVeille

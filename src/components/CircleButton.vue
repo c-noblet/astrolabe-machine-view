@@ -34,7 +34,7 @@
 					</router-link>
 				</button>
 				<button class="sub-circle">
-					<router-link v-b-modal.modal :to="{ path:'/edit/'+veilleUrl+'modal/edit-veille'}">
+					<router-link v-b-modal.modal :to="{ path:'/edit/'+veilleUrl+'modal/edit-tempsV'}">
 						<span class="font-weight-bold">zZ</span>
 					</router-link>
 				</button>

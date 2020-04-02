@@ -8,6 +8,8 @@
       :editMode="editMode"
       :state="state"
       :apiToken="apiToken"
+      :tempsVeille="tempsVeille"
+      @tempsVeilleUpdated="tempsVeilleUpdated($event)"
     ></router-view>
     <b-modal ref="loginModal" id="loginModal" title="Modal with Popover" hide-footer>
       <b-form>
@@ -39,6 +41,7 @@
   </div>
 </template>
 <script>
+import options from '../options.env'
 export default {
   data() {
     return {
@@ -46,27 +49,26 @@ export default {
       state: true,
       apiToken: '',
       activite_detectee: false,
-      intervalle: 10000,
+      intervalle: 600000,
+      tempsVeille: [],
       form: {
         username: '',
         password: ''
       }
     }
   },
-  mounted: function () {
+  mounted: async function () {
     if(this.$route.fullPath.includes('/edit')){
       if(this.readCookie('apiToken') !== ''){
         this.editMode = true
         this.apiToken = this.readCookie('apiToken').toString()
-        console.log('cookie',this.apiToken)
       }else{
         this.$refs['loginModal'].show()
       }
     }
-    // On lance la fonction testerActivite() pour la première fois, au chargement de la page
-    if (this.$route.fullPath.includes('/home') && !this.$route.fullPath.includes('/edit')){ 
-      this.lancementBoucleVeille()
-    }
+    await this.getTempsVeille()
+    // Calcule du temps de veille via la bdd
+    
   },
   methods: {
     onSubmit: function () {
@@ -79,7 +81,6 @@ export default {
         })
         .then((results) => results.json())
         .then(data => {
-          console.log(data)
           if(typeof data.erreur !== 'undefined'){
             alert(data.erreur)
           }else{
@@ -91,6 +92,10 @@ export default {
         }).catch(function(err){
           alert(err)
         })
+    },
+    tempsVeilleUpdated: function (temps) {
+      this.tempsVeille = temps;
+      this.calculeTempsVeille();
     },
     // Ecrire un Cookie
     writeCookie: function (name, value, days) {
@@ -119,18 +124,46 @@ export default {
       }
       return '';
     },
+    getTempsVeille: function() {
+			fetch(options.API_TEMPS_VEILLE)
+				.then(results => results.json())
+				.then(data => {
+					if (typeof data.error !== "undefined") {
+						alert(data.error);
+					} else {
+						this.tempsVeille = data
+            this.calculeTempsVeille()
+					}
+				})
+				.catch(function(err) {
+					alert(err);
+				});
+    },
+    calculeTempsVeille: function(){
+
+      for (let i = 0; i < this.tempsVeille.length; i++) {
+        if(this.tempsVeille[i].is_actif){
+          //Convertion en milliseconde
+          this.intervalle = this.tempsVeille[i].temps * 60000
+          console.log('veille intervalle : '+this.intervalle)
+        }
+      }
+      // On lance la fonction testerActivite() pour la première fois, au chargement de la page
+      if (this.$route.fullPath.includes('/home') && !this.$route.fullPath.includes('/edit')){ 
+        this.lancementBoucleVeille()
+      }
+    },
     lancementBoucleVeille: function() {
-      console.log('lancementBoucleVeille')
       /*setTimeout(() => {
         console.log('10s')
       }, this.intervalle)*/
       setTimeout(() => {
         this.testerActivite()
       }, this.intervalle)
+      console.log('lancementBoucleVeille'+ this.intervalle)
     },
     // On teste toutes les x secondes l'activité du visiteur via activite_detectee
     testerActivite: function() {
-      console.log('testerActivite')
       
       // On teste la variable activite_detectee
       // Si une activité a été détectée [On réinitialise activite_detectee]
@@ -144,12 +177,10 @@ export default {
       }
       // Si aucune activité n'a été détectée
       else {
-        console.log('pas de mouvement')
         this.$router.push('/veille')
       }
     },
     relanceBoucleVeille: function() {
-      console.log('relanceBoucleVeille')
 
       if(this.activite_detectee) {
         this.activite_detectee = false

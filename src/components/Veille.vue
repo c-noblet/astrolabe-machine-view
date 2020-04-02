@@ -104,23 +104,22 @@ export default {
 					alert(err);
 				});
 		},
-		activite: function() {
-			if (
-				this.$route.fullPath.includes("/veille") &&
-				!this.$route.fullPath.includes("/edit")
-			) {
-				document.location.href = "/home";
+		activite: function () {
+			if (this.$route.fullPath.includes('/veille') && !this.$route.fullPath.includes('/edit')){ 
+				//on ne fait pas un push normal car la function lancementBoucleVeille() ne sera pas appeler
+				document.location.href = "/home"
 			}
 		},
 		calculPosAutreWindows: function(laWindow) {
-			for (let index in this.windows) {
-				if (this.windows[index] !== laWindow) {
-					let laWindowTop = laWindow.posY;
-					let laWindowBottom = laWindow.posY + laWindow.height;
-					let itemTop = this.windows[index].posY;
-					let itemBottom =
-						this.windows[index].posY + this.windows[index].height;
-					let orientationH = null;
+			for (let index in this.windows ){
+
+				if ( this.windows[index] !== laWindow) {
+
+					let laWindowTop = laWindow.posY
+					let laWindowBottom = laWindow.posY + laWindow.height
+					let itemTop = this.windows[index].posY
+					let itemBottom = this.windows[index].posY + this.windows[index].height
+					let orientationH = null 
 
 					// Définie le côté de la window non modifié à adapter
 					if (laWindow.posX < this.windows[index].posX) {
