@@ -73,7 +73,7 @@ export default new Router({
           component: YoutubeWindow
         },
         {
-          path: '/edit/home/modal/edit-window',
+          path: '/edit/home/modal/edit-window/:id',
           props: true,
           name: 'EditWindow',
           component: EditWindow

@@ -17,12 +17,12 @@
 				v-show="!window.youtube"
 				class="fullscreen"
         :editMode="editMode"
-				:to="{ name: 'Fullscreen', params: { url: window.url, typeWindow: window.veille }}"
+				:to="{ name: 'Fullscreen', params: { url: window.url, typeWindow: window.veille.toString() }}"
 			></router-link>
 			<router-link
 				class="btn btn-warning"
 				v-show="editMode"
-				:to="{ path:'/edit/'+veilleUrl+'modal/edit-window', params: { windowId: window.id.toString()}}"
+				:to="'/edit/'+veilleUrl+'modal/edit-window/'+window.id"
 				squared
 				v-b-modal.modal
 			>Modifier</router-link>

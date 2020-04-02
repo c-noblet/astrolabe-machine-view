@@ -23,8 +23,8 @@
 
 		<b-form-group label="Position:" label-for="edit-pos-x" class="form-inline">
 			<div class="d-flex justify-content-between">
-				<b-form-input id="edit-pos-x" v-model="modal.posX" required placeholder="Entrer la longueur"></b-form-input>
-				<b-form-input id="edit-pos-y" v-model="modal.posY" required placeholder="Entrer la hauteur"></b-form-input>
+				<b-form-input id="edit-pos-x" v-model="modal.posX" required placeholder="Entrer la position X"></b-form-input>
+				<b-form-input id="edit-pos-y" v-model="modal.posY" required placeholder="Entrer la position Y"></b-form-input>
 			</div>
 		</b-form-group>
 
@@ -41,11 +41,11 @@ import options from "../../../options.env";
 export default {
 	props: {
 		apiToken: String,
-		windowId: String,
 		windows: Array
 	},
 	data() {
 		return {
+			windowId: this.$route.params.id,
 			modal: {
 				id: "",
 				url: "",
