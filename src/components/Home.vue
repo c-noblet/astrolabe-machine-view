@@ -23,6 +23,7 @@
         :tempsVeille="tempsVeille"
         @windowAdded="pushNewWindow($event)"
         @backgroundUpdated="reloadBackground($event)"
+        @tempsVeilleUpdated="tempsVeilleUpdated($event)"
       />
     </div>
   </section>
@@ -37,7 +38,8 @@ export default {
   props: {
     editMode: Boolean,
     state: Boolean,
-    apiToken: String
+    apiToken: String,
+    tempsVeille: Array
   },
   data () {
     return {
@@ -52,13 +54,11 @@ export default {
         loaded: Boolean
       },
       windows: [],
-      tempsVeille: []
     }
   },
   mounted: async function () {
-    await this.getBackground();
-    await this.getTempsVeille();
     this.getWindows();
+    this.getBackground();
   },
   methods: {
     pushNewWindow(window){
@@ -71,14 +71,15 @@ export default {
         this.background = background.color
       }
     },
+    tempsVeilleUpdated: function (temps) {
+      this.$emit("tempsVeilleUpdated", temps);
+    },
     getBackground: function () {
       fetch(options.API_BACKGROUND_URL)
       .then((results) => results.json())
       .then(data => {
         if(data.color){
           this.background = data.color
-          //console.log(data.color)
-          //console.log(data)
         }
       }).catch(() => {
         this.background = "url('"+options.API_BACKGROUND_URL+"');background-position:center;background-size:100% 100%;background-repeat:no-repeat;"
@@ -97,20 +98,6 @@ export default {
         alert(err)
       })
     },
-    getTempsVeille: function() {
-			fetch(options.API_TEMPS_VEILLE)
-				.then(results => results.json())
-				.then(data => {
-					if (typeof data.error !== "undefined") {
-						alert(data.error);
-					} else {
-						this.tempsVeille = data
-					}
-				})
-				.catch(function(err) {
-					alert(err);
-				});
-		},
     calculPosAutreWindows: function(laWindow) {
       for (let index in this.windows ){
         

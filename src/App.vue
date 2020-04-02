@@ -8,6 +8,8 @@
       :editMode="editMode"
       :state="state"
       :apiToken="apiToken"
+      :tempsVeille="tempsVeille"
+      @tempsVeilleUpdated="tempsVeilleUpdated($event)"
     ></router-view>
     <b-modal ref="loginModal" id="loginModal" title="Modal with Popover" hide-footer>
       <b-form>
@@ -60,16 +62,13 @@ export default {
       if(this.readCookie('apiToken') !== ''){
         this.editMode = true
         this.apiToken = this.readCookie('apiToken').toString()
-        console.log('cookie',this.apiToken)
       }else{
         this.$refs['loginModal'].show()
       }
     }
-
-     await this.getTempsVeille()
-
+    await this.getTempsVeille()
     // Calcule du temps de veille via la bdd
-    this.calculeTempsVeille()
+    await this.calculeTempsVeille()
 
     // On lance la fonction testerActivite() pour la première fois, au chargement de la page
     if (this.$route.fullPath.includes('/home') && !this.$route.fullPath.includes('/edit')){ 
@@ -87,7 +86,6 @@ export default {
         })
         .then((results) => results.json())
         .then(data => {
-          console.log(data)
           if(typeof data.erreur !== 'undefined'){
             alert(data.erreur)
           }else{
@@ -99,6 +97,9 @@ export default {
         }).catch(function(err){
           alert(err)
         })
+    },
+    tempsVeilleUpdated: function (temps) {
+      this.tempsVeille = temps;
     },
     // Ecrire un Cookie
     writeCookie: function (name, value, days) {
@@ -127,6 +128,20 @@ export default {
       }
       return '';
     },
+    getTempsVeille: function() {
+			fetch(options.API_TEMPS_VEILLE)
+				.then(results => results.json())
+				.then(data => {
+					if (typeof data.error !== "undefined") {
+						alert(data.error);
+					} else {
+						this.tempsVeille = data
+					}
+				})
+				.catch(function(err) {
+					alert(err);
+				});
+    },
     calculeTempsVeille(){
       console.log('intervalle = '+this.intervalle)
       console.log('intervalle tempsVeille= '+this.tempsVeille)
@@ -141,22 +156,7 @@ export default {
       }
       console.log('intervalle = '+this.intervalle)
     },
-    getTempsVeille: function() {
-      fetch(options.API_TEMPS_VEILLE)
-      .then(results => results.json())
-      .then(data => {
-        if (typeof data.error !== "undefined") {
-          alert(data.error);
-        } else {
-          this.tempsVeille = data
-        }
-      })
-      .catch(function(err) {
-        alert(err);
-      });
-    },
     lancementBoucleVeille: function() {
-      console.log('lancementBoucleVeille')
       /*setTimeout(() => {
         console.log('10s')
       }, this.intervalle)*/
@@ -166,7 +166,6 @@ export default {
     },
     // On teste toutes les x secondes l'activité du visiteur via activite_detectee
     testerActivite: function() {
-      console.log('testerActivite')
       
       // On teste la variable activite_detectee
       // Si une activité a été détectée [On réinitialise activite_detectee]
@@ -180,12 +179,10 @@ export default {
       }
       // Si aucune activité n'a été détectée
       else {
-        console.log('pas de mouvement')
         this.$router.push('/veille')
       }
     },
     relanceBoucleVeille: function() {
-      console.log('relanceBoucleVeille')
 
       if(this.activite_detectee) {
         this.activite_detectee = false

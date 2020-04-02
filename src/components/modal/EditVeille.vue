@@ -62,7 +62,8 @@ export default {
 	mounted: function() {
 		for (let i = 0; i < this.tempsVeille.length; i++) {
 			if(this.tempsVeille[i].is_actif && this.tempsVeille[i].label === 'temps_media'){
-				this.isMedia = true;
+				console.log('isMedia')
+				this.modal.isMedia = true;
 			}
 			if(this.tempsVeille[i].label === 'temps_media'){
 				this.modal.media = this.tempsVeille[i].temps;
@@ -93,10 +94,10 @@ export default {
 			})
 				.then(results => results.json())
 				.then(data => {
-					console.log(data)
 					if(typeof data.error !== 'undefined'){
 						alert(data.error);
 					}else{
+						this.$emit("tempsVeilleUpdated", data);
 						this.$emit("closeModal", true);
 						this.$refs["spinner"].style.display = "";
 					}
