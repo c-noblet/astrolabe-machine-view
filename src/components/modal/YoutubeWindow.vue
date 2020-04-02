@@ -73,7 +73,7 @@ export default {
 				},
 				body: formData
 			})
-				.then(results => console.log(results))
+				.then(results => results.json())
 				.then(data => {
 					if (typeof data.error !== "undefined") {
 						// En cas d'erreur on fait une alerte
