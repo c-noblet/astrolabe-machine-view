@@ -48,14 +48,14 @@ export default {
       apiToken: '',
       activite_detectee: false,
       intervalle: 1,
-      tempsVeilles: Object,
+      tempsVeille: [],
       form: {
         username: '',
         password: ''
       }
     }
   },
-  mounted: function () {
+  mounted: async function () {
     if(this.$route.fullPath.includes('/edit')){
       if(this.readCookie('apiToken') !== ''){
         this.editMode = true
@@ -65,6 +65,8 @@ export default {
         this.$refs['loginModal'].show()
       }
     }
+
+     await this.getTempsVeille()
 
     // Calcule du temps de veille via la bdd
     this.calculeTempsVeille()
@@ -126,36 +128,32 @@ export default {
       return '';
     },
     calculeTempsVeille(){
-      this.getTempsVeille()
+      console.log('intervalle = '+this.intervalle)
+      console.log('intervalle tempsVeille= '+this.tempsVeille)
 
-      for (const item in this.tempsVeilles){
-        console.log(item)
-        console.log('item')
-        if (item.is_actif) {
-        console.log('temps bdd : '+ item.temps)
-          this.intervalle = this.item.temps
+      for (let i = 0; i < this.tempsVeille.length; i++) {
+      console.log('intervalle et is_actif = '+this.tempsVeille[i].is_actif)
+        if(this.tempsVeille[i].is_actif){
+          //Convertion en milliseconde
+          this.intervalle = this.tempsVeille[i].temps * 60000
+          console.log('calcule intervalle')
         }
       }
-
-      console.log(this.intervalle)
-      //Convertion en milliseconde
-      this.intervalle = this.intervalle * 60000
-      console.log(this.intervalle)
-
+      console.log('intervalle = '+this.intervalle)
     },
-    getTempsVeille: function () {
+    getTempsVeille: function() {
       fetch(options.API_TEMPS_VEILLE)
-      .then((results) => results.json())
+      .then(results => results.json())
       .then(data => {
-        if(typeof data.erreur !== 'undefined'){
-          alert(data.erreur)
-        }else{
-          this.tempsVeilles = data
-          console.log(this.tempsVeilles)
+        if (typeof data.error !== "undefined") {
+          alert(data.error);
+        } else {
+          this.tempsVeille = data
         }
-      }).catch(function(err){
-        alert(err)
       })
+      .catch(function(err) {
+        alert(err);
+      });
     },
     lancementBoucleVeille: function() {
       console.log('lancementBoucleVeille')
