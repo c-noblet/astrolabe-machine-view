@@ -68,12 +68,7 @@ export default {
     }
     await this.getTempsVeille()
     // Calcule du temps de veille via la bdd
-    await this.calculeTempsVeille()
-
-    // On lance la fonction testerActivite() pour la première fois, au chargement de la page
-    if (this.$route.fullPath.includes('/home') && !this.$route.fullPath.includes('/edit')){ 
-      this.lancementBoucleVeille()
-    }
+    
   },
   methods: {
     onSubmit: function () {
@@ -100,6 +95,7 @@ export default {
     },
     tempsVeilleUpdated: function (temps) {
       this.tempsVeille = temps;
+      this.calculeTempsVeille();
     },
     // Ecrire un Cookie
     writeCookie: function (name, value, days) {
@@ -136,7 +132,7 @@ export default {
 						alert(data.error);
 					} else {
 						this.tempsVeille = data
-            console.log('int getTempsVeille = '+this.tempsVeille)
+            this.calculeTempsVeille()
 					}
 				})
 				.catch(function(err) {
@@ -144,18 +140,18 @@ export default {
 				});
     },
     calculeTempsVeille: function(){
-      console.log('intervalle debut = '+this.intervalle)
-      console.log('intervalle tempsVeille= '+this.tempsVeille[0])
 
       for (let i = 0; i < this.tempsVeille.length; i++) {
-      console.log('intervalle et is_actif = '+this.tempsVeille[i].is_actif)
         if(this.tempsVeille[i].is_actif){
           //Convertion en milliseconde
           this.intervalle = this.tempsVeille[i].temps * 60000
-          console.log('calcule intervalle')
+          console.log('veille intervalle : '+this.intervalle)
         }
       }
-      console.log('intervalle fin = '+this.intervalle)
+      // On lance la fonction testerActivite() pour la première fois, au chargement de la page
+      if (this.$route.fullPath.includes('/home') && !this.$route.fullPath.includes('/edit')){ 
+        this.lancementBoucleVeille()
+      }
     },
     lancementBoucleVeille: function() {
       /*setTimeout(() => {
@@ -164,6 +160,7 @@ export default {
       setTimeout(() => {
         this.testerActivite()
       }, this.intervalle)
+      console.log('lancementBoucleVeille'+ this.intervalle)
     },
     // On teste toutes les x secondes l'activité du visiteur via activite_detectee
     testerActivite: function() {
