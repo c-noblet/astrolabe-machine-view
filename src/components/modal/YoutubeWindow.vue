@@ -61,9 +61,9 @@ export default {
 			formData.append("height", this.modal.height);
 			formData.append("posX", this.modal.posX);
 			formData.append("posY", this.modal.posY);
-			formData.append("youtube", true);
-			formData.append("playlist", this.modal.playlist);
-			formData.append("veille", false);
+			formData.append("youtube", 'true');
+			formData.append("playlist", this.modal.playlist.toString());
+			formData.append("veille", 'false');
 
 			// On fait la requête
 			fetch(options.API_WINDOW_URL, {
@@ -73,7 +73,7 @@ export default {
 				},
 				body: formData
 			})
-				.then(results => results.json())
+				.then(results => console.log(results))
 				.then(data => {
 					if (typeof data.error !== "undefined") {
 						// En cas d'erreur on fait une alerte
