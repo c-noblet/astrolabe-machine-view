@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<iframe :src="url" frameborder="0"></iframe>
-		<router-link class="btn btn-primary" :to="urlRetour">Retour</router-link>
+		<router-link :to="'/'+url1+url2"><font-awesome-icon size="3x" icon="arrow-left" /></router-link>
 	</div>
 </template>
 <script>
@@ -14,23 +14,20 @@
 		},
 		data() {
 			return {
-				urlRetour: ''
+				url1: '',
+				url2: '',
 			}
 		},
 		mounted: function() {
-			this.choixUrl();
-		},
-		methods: {
-			choixUrl: function () {
-				if (this.editMode) {
-					if (this.typeWindow) {
-						this.urlRetour = '/edit/veille'
-					} else {
-						this.urlRetour = '/edit/home'
-					}
-				} else {
-					this.urlRetour = '/home'
-				}
+			if(this.$route.fullPath.includes('edit')){
+				this.url1 = 'edit/'
+			}else{
+				this.url1 = ''
+			}
+			if(this.$route.fullPath.includes('home')){
+				this.url2 = 'home/'
+			}else{
+				this.url2 = 'veille'
 			}
 		}
 	};
@@ -44,5 +41,6 @@
 		position: absolute;
 		top: 15px;
 		left: 15px;
+		color: rgba(#000, 0.5)
 	}
 </style>

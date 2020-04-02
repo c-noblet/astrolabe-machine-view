@@ -31,16 +31,22 @@ export default new Router({
       component: Home,
     },
     {
-      path: '/fullscreen',
-      props: true,
-      name: 'Fullscreen',
-      component: Fullscreen
-    },
-    {
       path: '/veille',
       props: true,
       name: 'Veille',
       component: Veille
+    },
+    {
+      path: '/home/fullscreen/',
+      props: true,
+      name: 'HomeFullscreen',
+      component: Fullscreen
+    },
+    {
+      path: '/edit/home/fullscreen',
+      props: true,
+      name: 'EditHomeFullscreen',
+      component: Fullscreen
     },
     {
       path: '/edit/home',

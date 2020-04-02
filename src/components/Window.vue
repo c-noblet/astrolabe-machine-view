@@ -13,17 +13,16 @@
 				allowfullscreen
 			></iframe>
 			<iframe v-show="!window.youtube" :src="window.url" frameborder="0"></iframe>
-			<router-link
-				v-show="!window.youtube && !fullscreenVeille"
+			<router-link 
+				v-show="!editMode && !isVeille && !window.youtube"
 				class="fullscreen"
-        :editMode="editMode"
-				:to="{ name: 'Fullscreen', params: { url: window.url, typeWindow: window.veille.toString() }}"
+				:to="{ name: 'HomeFullscreen', params: { url: window.url }}"
 			></router-link>
-      <router-link
-        v-show="fullscreenVeille"
-        class="fullscreen"
-        to="/home"
-      ></router-link>
+			<router-link 
+				v-show="editMode && !isVeille && !window.youtube"
+				class="fullscreen"
+				:to="{ name: 'EditHomeFullscreen', params: { url: window.url }}"
+			></router-link>
 			<router-link
 				class="btn btn-warning"
 				v-show="editMode"
@@ -47,27 +46,19 @@ export default {
 			playlistUrl: "",
 			autoplay: "?autoplay=1",
 			veilleUrl: "",
-      fullscreenVeille: false
+      isVeille: false
 		};
   },
   // Lors de la création du Composant
 	created: function() {
+		if(this.$route.fullPath.includes('veille')){
+			this.isVeille = true;
+		}
 		if (this.window.playlist) {
       // Si la fenêtre doit afficher une playlist YouTube
 			this.playlistUrl = "videoseries?list=";
 			this.autoplay = "&autoplay=1";
 		}
-		if (this.$route.fullPath.includes("veille")) {
-      // Si on est mode veille on change les liens
-			this.veilleUrl = "veille/";
-      if (!this.$route.fullPath.includes("edit")) {
-        // on annule le fullscreen en mode veille
-        this.fullscreenVeille = true
-      }
-    } else {
-      // Si on est en mode home
-      this.veilleUrl = "home/";
-    }
 	}
 };
 </script>
