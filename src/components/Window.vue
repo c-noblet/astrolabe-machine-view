@@ -14,11 +14,16 @@
 			></iframe>
 			<iframe v-show="!window.youtube" :src="window.url" frameborder="0"></iframe>
 			<router-link
-				v-show="!window.youtube"
+				v-show="!window.youtube && !fullscreenVeille"
 				class="fullscreen"
         :editMode="editMode"
 				:to="{ name: 'Fullscreen', params: { url: window.url, typeWindow: window.veille.toString() }}"
 			></router-link>
+      <router-link
+        v-show="fullscreenVeille"
+        class="fullscreen"
+        to="/home"
+      ></router-link>
 			<router-link
 				class="btn btn-warning"
 				v-show="editMode"
@@ -41,7 +46,8 @@ export default {
 		return {
 			playlistUrl: "",
 			autoplay: "?autoplay=1",
-			veilleUrl: ""
+			veilleUrl: "",
+      fullscreenVeille: false
 		};
   },
   // Lors de la création du Composant
@@ -54,6 +60,10 @@ export default {
 		if (this.$route.fullPath.includes("veille")) {
       // Si on est mode veille on change les liens
 			this.veilleUrl = "veille/";
+      if (!this.$route.fullPath.includes("edit")) {
+        // on annule le fullscreen en mode veille
+        this.fullscreenVeille = true
+      }
     } else {
       // Si on est en mode home
       (this.veilleUrl = "home/");
