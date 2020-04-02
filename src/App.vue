@@ -145,7 +145,6 @@ export default {
         if(this.tempsVeille[i].is_actif){
           //Convertion en milliseconde
           this.intervalle = this.tempsVeille[i].temps * 60000
-          console.log('veille intervalle : '+this.intervalle)
         }
       }
       // On lance la fonction testerActivite() pour la première fois, au chargement de la page
@@ -154,13 +153,9 @@ export default {
       }
     },
     lancementBoucleVeille: function() {
-      /*setTimeout(() => {
-        console.log('10s')
-      }, this.intervalle)*/
       setTimeout(() => {
         this.testerActivite()
       }, this.intervalle)
-      console.log('lancementBoucleVeille'+ this.intervalle)
     },
     // On teste toutes les x secondes l'activité du visiteur via activite_detectee
     testerActivite: function() {
