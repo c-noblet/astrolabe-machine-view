@@ -78,7 +78,7 @@ export default {
 					}
 				})
 				.catch(() => {
-					this.background =	"url('" +	options.API_BACKGROUND_URL + "');background-position:center;background-size:100% 100%;background-repeat:no-repeat;";
+					this.background =	"url('" +	options.API_BACKGROUND_VEILLE_URL + "');background-position:center;background-size:100% 100%;background-repeat:no-repeat;";
 				});
 		},
 		// Récupère les fenêtres
