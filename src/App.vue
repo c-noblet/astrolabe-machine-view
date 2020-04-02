@@ -39,6 +39,7 @@
   </div>
 </template>
 <script>
+import options from '../options.env'
 export default {
   data() {
     return {
@@ -46,7 +47,8 @@ export default {
       state: true,
       apiToken: '',
       activite_detectee: false,
-      intervalle: 10000,
+      intervalle: 1,
+      tempsVeilles: Object,
       form: {
         username: '',
         password: ''
@@ -63,6 +65,10 @@ export default {
         this.$refs['loginModal'].show()
       }
     }
+
+    // Calcule du temps de veille via la bdd
+    this.calculeTempsVeille()
+
     // On lance la fonction testerActivite() pour la première fois, au chargement de la page
     if (this.$route.fullPath.includes('/home') && !this.$route.fullPath.includes('/edit')){ 
       this.lancementBoucleVeille()
@@ -118,6 +124,38 @@ export default {
         }
       }
       return '';
+    },
+    calculeTempsVeille(){
+      this.getTempsVeille()
+
+      for (const item in this.tempsVeilles){
+        console.log(item)
+        console.log('item')
+        if (item.is_actif) {
+        console.log('temps bdd : '+ item.temps)
+          this.intervalle = this.item.temps
+        }
+      }
+
+      console.log(this.intervalle)
+      //Convertion en milliseconde
+      this.intervalle = this.intervalle * 60000
+      console.log(this.intervalle)
+
+    },
+    getTempsVeille: function () {
+      fetch(options.API_TEMPS_VEILLE)
+      .then((results) => results.json())
+      .then(data => {
+        if(typeof data.erreur !== 'undefined'){
+          alert(data.erreur)
+        }else{
+          this.tempsVeilles = data
+          console.log(this.tempsVeilles)
+        }
+      }).catch(function(err){
+        alert(err)
+      })
     },
     lancementBoucleVeille: function() {
       console.log('lancementBoucleVeille')
