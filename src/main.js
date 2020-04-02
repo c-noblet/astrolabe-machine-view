@@ -6,6 +6,12 @@ import router from './router'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faPlus, faEllipsisH, faPaintRoller, faSyncAlt, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+const schedule = require('node-schedule');
+
+schedule.scheduleJob('0 0 3 * * *', function(){
+  console.log('test')
+  document.location.reload(true);
+});
 
 library.add(faPlus, faEllipsisH, faPaintRoller, faSyncAlt, faUser)
 Vue.component('font-awesome-icon', FontAwesomeIcon)

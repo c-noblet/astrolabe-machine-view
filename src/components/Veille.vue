@@ -3,7 +3,11 @@
 		<div ref="container" class="screen">
 			<ul>
 				<li v-for="(item) in windows" :key="item.id">
-					<Window :window="item" :editMode="editMode" @iframeLoaded="iframesState($event)" />
+					<Window 
+						:window="item" 
+						:editMode="editMode" 
+						@iframeLoaded="iframesState($event)" 
+					/>
 				</li>
 			</ul>
 			<CircleButton
@@ -16,8 +20,10 @@
 				:apiToken="apiToken"
 				:windows="windows"
 				:bg="background"
+				:tempsVeille="tempsVeille"
 				@windowAdded="pushNewWindow($event)"
 				@backgroundUpdated="reloadBackground($event)"
+				@tempsVeilleUpdated="tempsVeilleUpdated($event)"
 			/>
 		</div>
 	</section>
@@ -32,22 +38,14 @@ export default {
 	props: {
 		editMode: Boolean,
 		state: Boolean,
-		apiToken: String
+		apiToken: String,
+		tempsVeille: Array,
 	},
+	
 	data() {
 		return {
 			background: "",
-			modal: {
-				id: Number,
-				url: String,
-				width: String,
-				height: String,
-				posX: String,
-				posY: String,
-				loaded: Boolean
-			},
-			windows: [],
-			promiseArray: []
+			windows: []
 		};
 	},
 	// Lors de la création du DOM
@@ -80,10 +78,7 @@ export default {
 					}
 				})
 				.catch(() => {
-					this.background =
-						"url('" +
-						options.API_BACKGROUND_URL +
-						"');background-position:center;background-size:100% 100%;background-repeat:no-repeat;";
+					this.background =	"url('" +	options.API_BACKGROUND_URL + "');background-position:center;background-size:100% 100%;background-repeat:no-repeat;";
 				});
 		},
 		// Récupère les fenêtres
@@ -95,9 +90,6 @@ export default {
 						alert(data.erreur);
 					} else {
 						this.windows = data;
-						for (let i = 0; i < this.windows.length; i++) {
-							this.windows[i].loaded = false;
-						}
 					}
 				})
 				.catch(function(err) {
@@ -110,7 +102,7 @@ export default {
 				document.location.href = "/home"
 			}
 		},
-		calculPosAutreWindows: function(laWindow) {
+		/*calculPosAutreWindows: function(laWindow) {
 			for (let index in this.windows ){
 
 				if ( this.windows[index] !== laWindow) {
@@ -149,7 +141,7 @@ export default {
 					}
 				}
 			}
-		}
+		}*/
 	},
 	components: {
 		Window,

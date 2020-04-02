@@ -44,15 +44,6 @@ export default {
   data () {
     return {
       background: '',
-      modal: {
-        id: Number,
-        url: String,
-        width: String,
-        height: String,
-        posX: String,
-        posY: String,
-        loaded: Boolean
-      },
       windows: [],
     }
   },
@@ -89,10 +80,7 @@ export default {
           }
         })
         .catch(() => {
-          this.background =
-            "url('" +
-            options.API_BACKGROUND_URL +
-            "');background-position:center;background-size:100% 100%;background-repeat:no-repeat;";
+          this.background = "url('" + options.API_BACKGROUND_URL + "');background-position:center;background-size:100% 100%;background-repeat:no-repeat;";
         });
     },
     // Récupère les fenêtres
@@ -110,7 +98,7 @@ export default {
           alert(err);
         });
     },
-    calculPosAutreWindows: function(laWindow) {
+    /*calculPosAutreWindows: function(laWindow) {
       for (let index in this.windows) {
         if (this.windows[index] !== laWindow) {
           let laWindowTop = laWindow.posY;
@@ -148,7 +136,7 @@ export default {
 					}
 				}
 			}
-		}
+		}*/
 	},
 	components: {
 		Window,
