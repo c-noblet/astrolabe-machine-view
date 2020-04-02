@@ -117,7 +117,7 @@ export default new Router({
           component: AddWindow
         },
         {
-          path: '/edit/veille/modal/edit-window',
+          path: '/edit/veille/modal/edit-window/:id',
           props: true,
           name: 'EditWindowVeille',
           component: EditWindow
