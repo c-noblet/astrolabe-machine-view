@@ -56,7 +56,7 @@ export default {
 			this.veilleUrl = "veille/";
     } else {
       // Si on est en mode home
-      (this.veilleUrl = "home/");
+      this.veilleUrl = "home/";
     }
 	}
 };
