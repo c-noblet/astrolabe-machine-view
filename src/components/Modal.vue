@@ -67,7 +67,7 @@ export default {
 			this.navs = true;
 			this.choice1 = {
 				name: "Couleur",
-				url: { name: "EditColor", params: { color: this.bg } },
+        url: 'edit-color',
 				active: true
 			};
 			this.choice2 = {
@@ -79,7 +79,7 @@ export default {
 			this.navs = true;
 			this.choice1 = {
 				name: "Couleur",
-				url: { name: "EditColor", params: { color: this.bg } },
+        url: 'edit-color',
 				active: false
 			};
 			this.choice2 = {
