@@ -67,7 +67,6 @@ export default {
         })
         .then((results) => results.json())
         .then(data => {
-          console.log(data)
           if(typeof data.erreur !== 'undefined'){
             alert(data.erreur)
           }else{

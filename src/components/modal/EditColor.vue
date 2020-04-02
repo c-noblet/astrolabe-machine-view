@@ -42,7 +42,6 @@ export default {
       })
       .then((results) => results.json())
       .then((data) => {
-        console.log(data)
         this.$emit('backgroundUpdated', data)
         this.$emit('closeModal', true)
         this.$refs['spinner'].style.display = ''
