@@ -49,7 +49,7 @@ export default {
       state: true,
       apiToken: '',
       activite_detectee: false,
-      intervalle: 1,
+      intervalle: 600000,
       tempsVeille: [],
       form: {
         username: '',
@@ -136,15 +136,16 @@ export default {
 						alert(data.error);
 					} else {
 						this.tempsVeille = data
+            console.log('int getTempsVeille = '+this.tempsVeille)
 					}
 				})
 				.catch(function(err) {
 					alert(err);
 				});
     },
-    calculeTempsVeille(){
-      console.log('intervalle = '+this.intervalle)
-      console.log('intervalle tempsVeille= '+this.tempsVeille)
+    calculeTempsVeille: function(){
+      console.log('intervalle debut = '+this.intervalle)
+      console.log('intervalle tempsVeille= '+this.tempsVeille[0])
 
       for (let i = 0; i < this.tempsVeille.length; i++) {
       console.log('intervalle et is_actif = '+this.tempsVeille[i].is_actif)
@@ -154,7 +155,7 @@ export default {
           console.log('calcule intervalle')
         }
       }
-      console.log('intervalle = '+this.intervalle)
+      console.log('intervalle fin = '+this.intervalle)
     },
     lancementBoucleVeille: function() {
       /*setTimeout(() => {
