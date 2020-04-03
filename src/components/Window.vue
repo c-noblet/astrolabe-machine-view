@@ -45,7 +45,7 @@ export default {
 		return {
 			playlistUrl: "",
 			autoplay: "?autoplay=1",
-			veilleUrl: "",
+			veilleUrl: "home/",
       isVeille: false
 		};
   },
@@ -53,6 +53,7 @@ export default {
 	created: function() {
 		if(this.$route.fullPath.includes('veille')){
 			this.isVeille = true;
+			this.veilleUrl = 'veille/'
 		}
 		if (this.window.playlist) {
       // Si la fenêtre doit afficher une playlist YouTube
