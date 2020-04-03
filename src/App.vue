@@ -153,7 +153,6 @@ export default {
       }
     },
     lancementBoucleVeille: function() {
-      console.log('lancementBoucleVeille')
       setTimeout(() => {
         this.testerActivite()
       }, this.intervalle)
@@ -191,6 +190,17 @@ export default {
         this.lancementBoucleVeille()
       }
     }
+  },
+  metaInfo: {
+    title: "Borne l'Astrolabe",
+    htmlAttrs: {
+      lang: 'fr',
+      amp: true
+    },
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+    ]
   }
 }
 </script>

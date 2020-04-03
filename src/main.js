@@ -7,11 +7,17 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faPlus, faEllipsisH, faPaintRoller, faSyncAlt, faUser, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 const schedule = require('node-schedule');
+import VueMeta from 'vue-meta'
 
 schedule.scheduleJob('0 0 3 * * *', function(){
   console.log('test')
   document.location.reload(true);
 });
+
+Vue.use(VueMeta, {
+  // optional pluginOptions
+  refreshOnceOnNavigation: true
+})
 
 library.add(faPlus, faEllipsisH, faPaintRoller, faSyncAlt, faUser, faArrowLeft)
 Vue.component('font-awesome-icon', FontAwesomeIcon)

@@ -29,13 +29,6 @@
 				autoplay: "?autoplay=1",
 			}
 		},
-		created: function () {
-			if (this.window.playlist) {
-				// Si la fenêtre doit afficher une playlist YouTube
-				this.playlistUrl = "videoseries?list=";
-				this.autoplay = "&autoplay=1";
-			}
-		},
 		mounted: function() {
 			if(this.url.includes('://')){
 				this.yt = false;
