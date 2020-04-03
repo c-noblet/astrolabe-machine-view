@@ -6,7 +6,7 @@
 	>
 		<div>
 			<iframe
-				v-show="window.youtube"
+				v-if="window.youtube"
 				:src="'https://www.youtube.com/embed/'+playlistUrl+window.url+autoplay"
 				frameborder="0"
 				allow="autoplay; encrypted-media; picture-in-picture"
@@ -14,18 +14,18 @@
 			></iframe>
 			<iframe v-show="!window.youtube" :src="window.url" frameborder="0"></iframe>
 			<router-link 
-				v-show="!editMode && !isVeille && !window.youtube"
+				v-if="!editMode && !isVeille"
 				class="fullscreen"
 				:to="{ name: 'HomeFullscreen', params: { url: window.url }}"
 			></router-link>
 			<router-link 
-				v-show="editMode && !isVeille && !window.youtube"
+				v-if="editMode && !isVeille"
 				class="fullscreen"
 				:to="{ name: 'EditHomeFullscreen', params: { url: window.url }}"
 			></router-link>
 			<router-link
 				class="btn btn-warning"
-				v-show="editMode"
+				v-if="editMode"
 				:to="'/edit/'+veilleUrl+'modal/edit-window/'+window.id"
 				squared
 				v-b-modal.modal
@@ -45,7 +45,7 @@ export default {
 		return {
 			playlistUrl: "",
 			autoplay: "?autoplay=1",
-			veilleUrl: "",
+			veilleUrl: "home/",
       isVeille: false
 		};
   },
@@ -53,6 +53,7 @@ export default {
 	created: function() {
 		if(this.$route.fullPath.includes('veille')){
 			this.isVeille = true;
+			this.veilleUrl = 'veille/'
 		}
 		if (this.window.playlist) {
       // Si la fenêtre doit afficher une playlist YouTube
