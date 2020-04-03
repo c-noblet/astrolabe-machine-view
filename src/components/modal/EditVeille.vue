@@ -2,7 +2,7 @@
 	<b-form>
 		
 			<b-form-group
-				label="Durée par défault avant la mise en veille"
+				label="Durée par défaut avant la mise en veille"
 				label-for="edit-temps-normal"
 			>
 				<b-form-input

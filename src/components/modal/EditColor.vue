@@ -1,6 +1,6 @@
 <template>
 	<b-form>
-		<b-form-group label="Choisissez une couleur:" label-for="bg-color">
+		<b-form-group label="Choisisser une couleur:" label-for="bg-color">
 			<input id="bg-color" type="color" required class="w-25 form-control" v-model="background" />
 		</b-form-group>
 		<b-button type="button" v-on:click="onSubmit()" variant="primary">

@@ -1,6 +1,6 @@
 <template>
   <b-form>
-    <b-form-group label="Entrez l'URL:" label-for="add-url">
+    <b-form-group label="Entrer l'URL:" label-for="add-url">
       <b-form-input
         id="add-url"
         v-model="modal.url"

@@ -1,6 +1,6 @@
 <template>
 	<b-form>
-		<b-form-group label="Entrez l'identifiant de YouTube:" label-for="add-url">
+		<b-form-group label="Entrer l'identifiant de YouTube:" label-for="add-url">
 			<b-form-input id="add-url" v-model="modal.url" type="text" required placeholder="Entrer l'URL"></b-form-input>
 		</b-form-group>
 		<b-form-checkbox

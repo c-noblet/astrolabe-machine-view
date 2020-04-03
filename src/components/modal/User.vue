@@ -1,10 +1,10 @@
 <template>
   <b-form>
-    <b-form-group label="Saisissez votre mot de passe:" label-for="oldPassword">
+    <b-form-group label="Saisisser votre mot de passe:" label-for="oldPassword">
       <b-form-input id="oldPassword" v-model="oldPassword" type="password" required placeholder></b-form-input>
     </b-form-group>
 
-    <b-form-group label="Saisissez votre nouveau mot de passe:" label-for="newPassword">
+    <b-form-group label="Saisisser votre nouveau mot de passe:" label-for="newPassword">
       <b-form-input
         id="newPassword"
         class="mb-2"

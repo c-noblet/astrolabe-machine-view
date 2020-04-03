@@ -1,6 +1,6 @@
 <template>
 	<b-form>
-		<b-form-group label="Entrez l'URL:" label-for="edit-url">
+		<b-form-group label="Entrer l'URL:" label-for="edit-url">
 			<b-form-input id="edit-url" v-model="modal.url" type="text" required placeholder="Entrer l'URL"></b-form-input>
 		</b-form-group>
 

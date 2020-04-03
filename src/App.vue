@@ -153,6 +153,7 @@ export default {
       }
     },
     lancementBoucleVeille: function() {
+      console.log('lancementBoucleVeille')
       setTimeout(() => {
         this.testerActivite()
       }, this.intervalle)
