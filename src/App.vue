@@ -11,7 +11,7 @@
       :tempsVeille="tempsVeille"
       @tempsVeilleUpdated="tempsVeilleUpdated($event)"
     ></router-view>
-    <b-modal ref="loginModal" id="loginModal" title="Modal with Popover" hide-footer>
+    <b-modal ref="loginModal" id="loginModal" title="Connection" hide-footer>
       <b-form>
         <b-form-group
           label="Nom d'utilisateur:"
