@@ -62,7 +62,7 @@
 		position: absolute;
 		top: 15px;
 		left: 15px;
-		color: rgba(#fff, 0.9);
+		color: rgba(#3f51b5, 0.9);
 		z-index: 99;
 	}
 	.fullscreen {
