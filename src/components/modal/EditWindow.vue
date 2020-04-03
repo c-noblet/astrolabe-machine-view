@@ -80,7 +80,7 @@ export default {
 				posX: this.modal.posX.toString(),
 				posY: this.modal.posY.toString(),
 				youtube: this.modal.youtube.toString(),
-				playlist: this.modal.veille.toString(),
+				playlist: this.modal.playlist.toString(),
 				veille: this.$route.fullPath.includes("veille").toString()
 			});
 
